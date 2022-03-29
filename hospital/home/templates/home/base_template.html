@@ -35,14 +35,14 @@
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         {% for submenu_item in submenu_list %}
                                         {% if submenu_item.parent.page_name == menu_item.page_name %}
-                                        <li><a class="dropdown-item" href="p{{ submenu_item.sub_page_url }}">{{ submenu_item.sub_page_name }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ submenu_item.sub_page_url }}">{{ submenu_item.sub_page_name }}</a></li>
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                 </li>
                                 {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="p{{ menu_item.page_url }}">{{ menu_item.page_name }}</a>
+                                    <a class="nav-link" href="{{ menu_item.page_url }}">{{ menu_item.page_name }}</a>
                                 </li>
                                 {% endif %}
                                 {% endfor %}

@@ -17,7 +17,7 @@
                     <h5>{{ carousel.caption }}</h5>
                     <p>{{ carousel.text }}</p>
                     {% if carousel.btn_text != 'no-button' %}
-                    <a href="p{{ carousel.btn_url }}">
+                    <a href="{{ carousel.btn_url }}">
                         <button type="button" class="btn btn-primary">{{ carousel.btn_text }}</button>
                     </a>
                     {% endif %}
@@ -43,7 +43,7 @@
                 <i class="{{ mainicon.icon_class }}"></i>
                 <h2>{{ mainicon.title }}</h2>
                 <p>{{ mainicon.text }}</p>
-                <a href="p{{ mainicon.btn_url }}">
+                <a href="{{ mainicon.btn_url }}">
                     <button type="button" class="btn btn-primary">
                         {{ mainicon.btn_text }}
                     </button>
