@@ -6,7 +6,8 @@
 	],
 	"settings": {
 		"python.analysis.extraPaths": [
-			"D:\\Hospital Website Design\\Django\\env_site\\hospital"
-		]
+			"D:\\django-HIS\\env_site\\hospital"
+		],
+		"git.ignoreLimitWarning": true
 	},
 }

@@ -1,0 +1,112 @@
+{% extends 'home/base_template.html' %}
+
+{% load static %}
+
+{% block content %}
+<div id='carousel'>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for carousel in carousel_list %}
+            {% if carousel.priority == 1 %}
+            <div class="carousel-item active">
+            {% else %}
+            <div class="carousel-item">
+            {% endif %}
+                <img src="{% static carousel.img_src %}" class="d-block w-100 blur-img" alt="{{ carousel.caption }}">
+                <div class="carousel-caption">
+                    <h5>{{ carousel.caption }}</h5>
+                    <p>{{ carousel.text }}</p>
+                    {% if carousel.btn_text != 'no-button' %}
+                    <a href="p{{ carousel.btn_url }}">
+                        <button type="button" class="btn btn-primary">{{ carousel.btn_text }}</button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+<div id="marketing">
+    <div class="container">
+        <div class="row">
+            {% for mainicon in mainicon_list %}
+            <div class="col-lg-4 main-icon">
+                <i class="{{ mainicon.icon_class }}"></i>
+                <h2>{{ mainicon.title }}</h2>
+                <p>{{ mainicon.text }}</p>
+                <a href="p{{ mainicon.btn_url }}">
+                    <button type="button" class="btn btn-primary">
+                        {{ mainicon.btn_text }}
+                    </button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="featurette container">
+    <hr class="my-5">
+    {% for featurette in featurette_list %}
+    <div class="row">
+        {% if featurette.style == 'R' %}
+        <div class="col-7 order-first px-5">
+        {% else %}
+        <div class="col-7 order-last px-5">
+        {% endif %}
+            <h3>{{ featurette.title }}<span class="text_muted me-2">{{ featurette.muted_title }}</span></h3>
+            <p>{{ featurette.text }}</p>
+        </div>
+        <div class="col">
+            <img src="{% static featurette.img_src %}" class="d-block w-100" alt="{{ featurette.title }}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div id="contact" class="contact container">
+    <hr class="my-5">
+    <h2 class="mb-5">نموذج المقترحات والشكاوى</h2>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form class="row justify-content-center" action="/contact/" method="post">
+        {% csrf_token %}
+        <div class="col-12 form-floating mb-3">
+            {{ contact_form.name.errors }}
+            {{ contact_form.name }}
+            {{ contact_form.name.label_tag }}
+        </div>
+        <div class="col-6 form-floating mb-3">
+            {{ contact_form.department.errors }}
+            {{ contact_form.department }}
+            {{ contact_form.department.label_tag }}
+        </div>
+        <div class="col-6 form-floating mb-3">
+            {{ contact_form.msg_type.errors }}
+            {{ contact_form.msg_type }}
+            {{ contact_form.msg_type.label_tag }}
+        </div>
+        <div class="form-floating mb-3">
+            {{ contact_form.msg_text.errors }}
+            {{ contact_form.msg_text }}
+            {{ contact_form.msg_text.label_tag }}
+        </div>
+        <button type="submit" class="btn btn-primary col-5">إرسال</button>
+      </form>
+</div>
+
+
+{% endblock content %}
