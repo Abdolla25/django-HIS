@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from .models import Menu, SubMenu, Carousel, MainIcon, Featurette, Page
 
@@ -48,3 +49,6 @@ class PageView(View):
         context['contact_form'] = ContactForm()
 
         return render(request, 'home/page.html', context)
+
+class InvoiceView(PermissionRequiredMixin, View):
+    pass

@@ -12,11 +12,11 @@
     </div>
     <div class="overflow-hidden" style="max-height: 30vh;">
         <div class="container px-5">
-            <img src="{% static 'home/img/featurette/1.jpg' %}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+            <img src="{{ pages_list.img_src.url }}" class="img-fluid rounded-3 mb-4" alt="Example image" loading="lazy" style="max-height:260px;">
         </div>
     </div>
 </div>
-<div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+<div class="d-grid gap-2 d-flex justify-content-center mb-5">
     <a href="{% url 'home:home' %}">
         <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">عودة للصفحة الرئيسية</button>
     </a>

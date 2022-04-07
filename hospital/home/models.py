@@ -12,6 +12,7 @@ class Page(models.Model):
     content = HTMLField(verbose_name='محتوى الصفحة')
     pure_html = models.TextField(verbose_name='كود HTML', blank=True)
     url = models.SlugField(verbose_name='رابط الصفحة', unique=True)
+    img_src = models.ImageField(verbose_name='صورة مميزة', upload_to='pages')
 
     def __str__(self) -> str:
         return '/%s/' % self.url
