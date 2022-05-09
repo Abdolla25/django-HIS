@@ -12,7 +12,7 @@
             {% else %}
             <div class="carousel-item">
             {% endif %}
-                <img src="{% static carousel.img_src %}" class="d-block w-100 blur-img" alt="{{ carousel.caption }}">
+                <img src="{{ carousel.img_src.url }}" class="d-block w-100 blur-img" alt="{{ carousel.caption }}">
                 <div class="carousel-caption">
                     <h5>{{ carousel.caption }}</h5>
                     <p>{{ carousel.text }}</p>
@@ -66,7 +66,7 @@
             <p>{{ featurette.text }}</p>
         </div>
         <div class="col">
-            <img src="{% static featurette.img_src %}" class="d-block w-100" alt="{{ featurette.title }}">
+            <img src="{{ featurette.img_src.url }}" class="d-block w-100 blur-img" alt="{{ featurette.title }}">
         </div>
     </div>
     {% endfor %}
@@ -78,7 +78,7 @@
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
-        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        <div>{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
         {% endfor %}
     </div>
     {% endif %}

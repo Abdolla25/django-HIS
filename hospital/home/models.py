@@ -54,7 +54,7 @@ class SubMenu(models.Model):
 class Carousel(models.Model):
     caption = models.CharField(max_length=200, verbose_name='عنوان الشريحة')
     text = models.TextField(verbose_name='النص الفرعي')
-    img_src = models.CharField(max_length=80, default='home/img/carousel/', verbose_name='رابط الصورة')
+    img_src = models.ImageField(verbose_name='صورة الشريحة', upload_to='carousels')
     btn_text = models.CharField(max_length=80, default='no-button', verbose_name='زر الضغط')
     btn_url = models.ForeignKey(Page, on_delete=models.CASCADE, verbose_name='رابط زر الضغط')
     priority = models.PositiveSmallIntegerField(verbose_name='الترتيب', default=0)
@@ -90,7 +90,7 @@ class Featurette(models.Model):
     muted_title = models.CharField(max_length=80, verbose_name='كلمة مميزة')
     text = models.TextField(verbose_name='النص الفرعي')
     style = models.CharField(verbose_name='تنسيق العرض', max_length=1, choices=(('R', 'يمين'), ('L', 'يسار')))
-    img_src = models.CharField(max_length=80, default='home/img/featurette/', verbose_name='رابط الصورة')
+    img_src = models.ImageField(verbose_name='صورة الموضوع', upload_to='featurettes')
     priority = models.PositiveSmallIntegerField(verbose_name='الترتيب', default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name='توقيت الإنشاء')
     modified = models.DateTimeField(auto_now=True, verbose_name='آخر تعديل')
