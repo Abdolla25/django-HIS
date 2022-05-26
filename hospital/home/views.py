@@ -2,9 +2,10 @@ from datetime import timezone
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import View
+from django.views.generic import View, ListView
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db.models import Q
 
 from .models import Menu, SubMenu, Carousel, MainIcon, Featurette, Page
 
@@ -52,3 +53,13 @@ class PageView(View):
 
 class InvoiceView(PermissionRequiredMixin, View):
     pass
+
+class SearchResultsView(ListView):
+    model = Page
+    template_name = 'home/search_results.html'
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = Page.objects.filter(
+            Q(content__icontains=query) | Q(title__icontains=query),
+        )
+        return object_list

@@ -47,8 +47,8 @@
                                 {% endif %}
                                 {% endfor %}
                             </ul>
-                            <form class="d-flex">
-                            <input class="form-control ms-2" type="search" placeholder="بحث في الموقع" aria-label="Search">
+                            <form class="d-flex" action="/search" method="get">
+                            <input name="q" class="form-control ms-2" type="text" placeholder="بحث في الموقع" aria-label="Search">
                             <button class="btn btn-outline-primary" type="submit">بحث</button>
                             </form>
                         </div>
