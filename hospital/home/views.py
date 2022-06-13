@@ -1,11 +1,12 @@
 from datetime import timezone
+from django.conf import settings
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import View, ListView
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
+from django.contrib.auth import authenticate, login
 
 from .models import Menu, SubMenu, Carousel, MainIcon, Featurette, Page
 
@@ -18,6 +19,7 @@ from invoices.models import Department
 # Create your views here.
 
 class HomeView(View):
+    
     def get(self, request):
         context = {}
         context['menu_items'] = Menu.objects.all().order_by('priority')
@@ -51,9 +53,6 @@ class PageView(View):
 
         return render(request, 'home/page.html', context)
 
-class InvoiceView(PermissionRequiredMixin, View):
-    pass
-
 class SearchResultsView(ListView):
     model = Page
     template_name = 'home/search_results.html'
@@ -63,3 +62,10 @@ class SearchResultsView(ListView):
             Q(content__icontains=query) | Q(title__icontains=query),
         )
         return object_list
+
+def invoice(request):
+    if not request.user.is_authenticated:
+        return redirect('/')
+    else:
+        context = {}
+        return render(request, 'home/invoice.html', context)

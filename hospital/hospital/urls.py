@@ -25,10 +25,10 @@ admin.site.site_header = 'لوحة التحكم'
 admin.site.index_title = 'إدارة واجهات وقواعد بيانات منظومة المستشفى العسكري بدمياط الجديدة الإلكترونية'
 
 urlpatterns = [
-    path('', include('home.urls')),
     path('admin/', admin.site.urls),
-    path('invoices/', include('invoices.urls')),
-    path('sports/', include('sports.urls')),
+    path('', include('home.urls')),
+    # path('invoices/', include('invoices.urls')),
+    # path('sports/', include('sports.urls')),
     re_path(r'^tinymce/', include('tinymce.urls')), # For tinymce application
 ]
 

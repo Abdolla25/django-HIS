@@ -2,6 +2,10 @@
 /*      Home Style                                                                                      */
 /* ==================================================================================================== */
 
+:root {
+    --bs-dark-rgb: 33,50,105;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
 body {font-family: 'Cairo', sans-serif;/*padding-top: 8.5rem*/}
 span{text-align: right}
@@ -12,6 +16,13 @@ a:hover, a:active {color:#e51f25!important;text-decoration: none}
 .btn-outline-primary {color: #223369!important;border-color: #223369!important}
 .btn-outline-primary:hover {color:#fff!important;background-color: #e51f25!important;border-color: #e51f25!important}
 h5{font-size: 1.75rem;}
+.modal-header .btn-close{margin: -0.5rem auto -0.5rem -0.5rem;}
+@media (min-width: 576px){
+    .ms-sm-auto {
+        margin-left: unset!important;
+        margin-right: auto!important;
+    }
+}
 
 /* ==================================================================================================== */
 /*      Navbar Style                                                                                    */
