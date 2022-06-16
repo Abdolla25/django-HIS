@@ -1,0 +1,5 @@
+id,number,purchase_date,company_id,entryPerson_id,isDirectorAuth,isFinanceAuth
+9,2131,2022-03-26,2,1,H,H
+10,511,2022-05-08,1,1,H,H
+11,15511,2022-05-08,2,1,A,A
+12,577859,2022-05-10,1,1,H,H

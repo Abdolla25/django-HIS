@@ -4,6 +4,11 @@
   vertical-align: text-bottom;
 }
 
+.main-dashboard {
+  max-height: calc(100vh - 48px);
+  overflow: scroll;
+}
+
 /*
  * Sidebar
  */

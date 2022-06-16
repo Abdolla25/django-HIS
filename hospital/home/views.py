@@ -65,7 +65,7 @@ class SearchResultsView(ListView):
 
 def invoice(request):
     if not request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/account/login/')
     else:
         context = {}
         return render(request, 'home/invoice.html', context)
