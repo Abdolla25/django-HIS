@@ -1,0 +1,55 @@
+<header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home:home' %}">
+                    <img id="logo" src="/static/assets/images/logoHQ.png" alt="المستشفى العسكري بدمياط الجديدة">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        {% for menu_item in menu_items %}
+                        {% if menu_item.has_sub %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ menu_item.page_name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for submenu_item in submenu_list %}
+                                {% if submenu_item.parent.page_name == menu_item.page_name %}
+                                <li><a class="dropdown-item" href="/p{{ submenu_item.sub_page_url }}">{{ submenu_item.sub_page_name }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/p{{ menu_item.page_url }}">{{ menu_item.page_name }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'home:invoice' %}" target="_blank">
+                        <button type="button" class="btn btn-outline-danger">
+                            منظومة الفواتير الإلكترونية
+                            <i class="fa fa-external-link me-1" aria-hidden="true"></i>
+                        </button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'home:invoice' %}">
+                        <button type="button" class="btn btn-outline-danger">
+                            تسجيل الدخول
+                            <i class="fa fa-sign-in me-1" aria-hidden="true"></i>
+                        </button>
+                    </a>
+                    {% endif %}
+                    <form class="d-flex" action="/search" method="get">
+                        <input name="q" class="form-control ms-2" type="text" placeholder="بحث في الموقع" aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">بحث</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>

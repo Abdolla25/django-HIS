@@ -1,0 +1,206 @@
+{% extends "layouts/base-invoice.html" %}
+
+{% block title %} إضافة فاتورة {% endblock %} 
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	{% comment %} [ Main Content ] start {% endcomment %}
+	<div class="pcoded-main-container">
+		<div class="pcoded-content">
+			{% comment %} [ breadcrumb ] start {% endcomment %}
+			<div class="page-header">
+				<div class="page-block">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="page-header-title">
+								<h5 class="m-b-10">إضافة فاتورة</h5>
+							</div>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/invoice"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="#">إضافة فاتورة</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% comment %} [ breadcrumb ] end {% endcomment %}
+			{% comment %} [ Main Content ] start {% endcomment %}
+			<div class="row">
+				{% comment %} [ sample-page ] start {% endcomment %}
+				<div class="col-sm-12">
+					<form action="">
+						<div class="card">
+							<div class="card-header">
+								<h5>معلومات الفاتورة</h5>
+							</div>
+							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">الجهة المصدرة للفاتورة</span>
+									</div>
+									<select class="form-control">
+										<option selected>...</option>
+										<option value="1">شركة محمود عبدالواحد</option>
+										<option value="2">الشركة المصرية</option>
+										<option value="3">شركة بيت التجهيزات</option>
+									</select>
+									<div class="input-group-append">
+										<span class="input-group-text" id="basic-addon2">رقم السجل التجاري</span>
+									</div>
+									<small id="passwordHelpBlock" class="form-text text-muted w-100">
+										في حال عدم وجود اسم الجهة المصدرة في قائمة الشركات أعلاه أو في حال عدم مطابقة رقم السجل التجاري يجب الرجوع لفرع النظم.
+									</small>
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">رقم الفاتورة</span>
+									</div>
+									<input class="form-control" type="text">
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">تاريخ الفاتورة</span>
+									</div>
+									<input class="form-control w-75" type="text" placeholder="اضغط رمز التقويم لإدخال التاريخ..." readonly>
+									<div class="input-group-append">
+										<button class="btn  btn-secondary" type="button">اليوم</button>
+										<button class="btn  btn-primary" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+									</div>
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">تصنيف الفاتورة</span>
+									</div>
+									<select class="form-control">
+										<option selected>...</option>
+										<option value="1">فاتورة أدوية/مستلزمات علاجية</option>
+										<option value="2">فاتورة مستلزمات مكتبية</option>
+										<option value="3">فاتورة أدوات/مستلزمات صيانة</option>
+									</select>
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">فاتورة موجهة لقسم</span>
+									</div>
+									<select class="form-control">
+										<option selected>...</option>
+										<option value="1">فرع النظم</option>
+										<option value="2">قسم الامداد الطبي</option>
+										<option value="3">قسم الأجهزة الطبية</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h5>تفاصيل الفاتورة</h5>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-hover text-center">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>الصنف</th>
+												<th>الكمية</th>
+												<th>سعر الوحدة</th>
+												<th>السعر الإجمالي</th>
+												<th>حذف؟</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>
+													<input class="form-control" type="text" value="كرتون ورق A4" name="" id="">
+												</td>
+												<td>
+													<input class="form-control" type="number" value="30" name="" id="">
+												</td>
+												<td>
+													<input class="form-control" type="number" value="100" name="" id="">
+												</td>
+												<td>
+													<input class="form-control" type="number" value="3000" name="" id="" readonly>
+												</td>
+												<td>
+													<a href="#">
+														<i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="6">
+													<a href="#">
+														<i class="fa fa-plus-circle" style="color: green;" aria-hidden="true"></i>
+														إضافة صنف آخر
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<th colspan="3">عدد الأصناف</th>
+												<th colspan="3">1</th>
+											</tr>
+											<tr>
+												<th colspan="3">إجمالي سعر الفاتورة</th>
+												<th colspan="3">3000</th>
+											</tr>
+											<tr>
+												<th colspan="3">ضريبة القيمة المضافة (14%)</th>
+												<th colspan="3">420</th>
+											</tr>
+											<tr>
+												<th colspan="3">تكلفة الفاتورة</th>
+												<th colspan="3">3420</th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8 mx-auto">
+							<div class="card">
+								<div class="card-body">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend col-2">
+											<span class="input-group-text">إدخال البيانات</span>
+										</div>
+										<div class="custom-file col-8">
+											<input class="form-control" id="inputUsername" type="text" placeholder="{{ user.first_name }}: {{ user.last_name }}" readonly>
+										</div>
+										<div class="input-group-append col-2">
+											<a href="{% url 'logout' %}">
+												<button class="btn  btn-danger w-100" type="button">
+													تسجيل خروج
+												</button>
+											</a>
+										</div>
+									</div>
+									<div class="custom-control custom-checkbox mb-3">
+										<input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
+										<label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسمي أعلاه وليس اسم شخص آخر</label>
+									</div>
+									<div class="col-6 mx-auto text-center">
+										<button class="btn  btn-success w-50" type="submit">إضافة الفاتورة</button>
+										<button class="btn  btn-warning w-25" type="reset">تفريغ</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				{% comment %} [ sample-page ] end {% endcomment %}
+			</div>
+			{% comment %} [ Main Content ] end {% endcomment %}
+		</div>
+	</div>
+	{% comment %} [ Main Content ] end {% endcomment %}
+
+{% endblock content %}
+
+{% comment %} Specific Page JS goes HERE  {% endcomment %}
+{% block javascripts %}{% endblock javascripts %}
