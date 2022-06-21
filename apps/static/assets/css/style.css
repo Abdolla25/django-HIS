@@ -147,6 +147,18 @@ File: style.css
     }
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /*
     description Of variables for build for theme layouts
         1) menu-caption-color
@@ -3298,23 +3310,22 @@ textarea.form-control-lg {
     pointer-events: none;
     opacity: 0.65;
 }
-
 .btn-primary {
     color: #fff;
-    background-color: #4099ff;
-    border-color: #4099ff;
+    background-color: #223369;
+    border-color: #223369;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #3682d9;
-    border-color: #337acc;
+    background-color: #e51f25;
+    border-color: #e51f25;
 }
 
 .btn-check:focus + .btn-primary, .btn-primary:focus {
     color: #fff;
-    background-color: #3682d9;
-    border-color: #337acc;
+    background-color: #e51f25;
+    border-color: #e51f25;
     box-shadow: 0 0 0 0.25rem rgba(93, 168, 255, 0.5);
 }
 
@@ -3322,7 +3333,7 @@ textarea.form-control-lg {
   .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active,
   .show > .btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #337acc;
+    background-color: #e51f25;
     border-color: #3073bf;
 }
 
@@ -3334,8 +3345,8 @@ textarea.form-control-lg {
 
 .btn-primary:disabled, .btn-primary.disabled {
     color: #fff;
-    background-color: #4099ff;
-    border-color: #4099ff;
+    background-color: #223369;
+    border-color: #223369;
 }
 
 .btn-secondary {
@@ -29121,7 +29132,7 @@ div.dtk-focus-alt table.dataTable tbody th.focus {
     overflow: hidden;
     min-width: 100%;
     min-height: 100vh;
-    background: linear-gradient(45deg, #4099ff, #82bcff);
+    background: linear-gradient(45deg, #e51f25, #223369);
 }
 
 @media (min-width: 1200px) {

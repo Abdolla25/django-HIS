@@ -2,13 +2,23 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Person, Company, Invoice, Item, Department
+from .models import Company, Category, Department, Invoice, Item, Purchase
+
+admin.site.register(Company)
+admin.site.register(Category)
+admin.site.register(Department)
+admin.site.register(Item)
+admin.site.register(Purchase)
 
 # class ChoiceInline(admin.StackedInline):
-# class ChoiceInline(admin.TabularInline):
-#     model = Choice
-#     extra = 1
+class PurchaseInline(admin.TabularInline):
+    model = Purchase
+    extra = 1
     
+class InvoiceAdmin(admin.ModelAdmin):
+    inlines = [PurchaseInline]
+
+admin.site.register(Invoice, InvoiceAdmin)
 
 # class QuestionAdmin(admin.ModelAdmin):
 #     # fields = ['pub_date', 'question_text']
@@ -21,18 +31,17 @@ from .models import Person, Company, Invoice, Item, Department
 #     list_filter = ['pub_date', 'question_text']
 #     search_fields = ['question_text']
 
-class ItemInline(admin.TabularInline):
-    model = Item
-    extra = 1
+# class ItemInline(admin.TabularInline):
+#     model = Item
+#     extra = 1
 
-class InvoiceAdmin(admin.ModelAdmin):
-    inlines = [ItemInline]
-    list_display = ['number', 'purchase_date', 'isFinanceAuth', 'isDirectorAuth', 'company', 'entryPerson']
-    list_filter = ['company', 'entryPerson', 'isFinanceAuth', 'isDirectorAuth']
-    search_fields = ['number', 'company', 'entryPerson']
+# class InvoiceAdmin(admin.ModelAdmin):
+#     inlines = [ItemInline]
+#     list_display = ['number', 'purchase_date', 'current_state', 'company', 'entryPerson']
+#     list_filter = ['company', 'entryPerson', 'current_state']
+#     search_fields = ['number', 'company', 'entryPerson']
 
-admin.site.register(Invoice, InvoiceAdmin)
-admin.site.register(Person, list_display=['name', 'militaryNumber'])
-admin.site.register(Company, list_display=['name', 'commercialRegister'])
-admin.site.register(Department, list_display=['name', 'head'])
-admin.site.register(Item)
+# admin.site.register(Invoice, InvoiceAdmin)
+# admin.site.register(Company, list_display=['name', 'commercialRegister'])
+# admin.site.register(Department, list_display=['name', 'head'])
+# admin.site.register(Item)

@@ -1,6 +1,6 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Login {% endblock %}
+{% block title %} تسجيل دخول {% endblock %}
 
 {% block content %} 
 
@@ -11,22 +11,22 @@
 				<div class="row align-items-center text-center">
 					<div class="col-md-12">
 						<div class="card-body">
-							<img src="/static/assets/images/logo-dark.png" alt="" class="img-fluid mb-4">
+							<img src="/static/assets/images/logoHQ.png" alt="" class="img-fluid mb-4">
 
-							<h4 class="mb-3 f-w-400">Sign IN</h4>
+							<h4 class="mb-3 f-w-400">تسجيل دخول</h4>
 							<span class="mb-2 text-muted">
 								{% if msg %}
 									<span class="text-danger">
 										{{ msg | safe }}
 									</span>
 								{% else %}
-									Add your credentials
+									اكتب بيانات الحساب الخاص بك
 								{% endif %} 
 							</span>
 
 							<br /><br />
 
-							<form role="form" method="post" action="">
+							<form role="form" method="post">
 
 								{% csrf_token %}
 
@@ -39,11 +39,11 @@
 									{{ form.password }}
 								</div>
 
-								<button type="submit" name="login" class="btn btn-block btn-primary mt-2 mb-4">Sign In</button>
+								<button type="submit" name="login" class="btn btn-block btn-primary mt-2 mb-4">دخول</button>
 							
 							</form>
 
-							<p class="mb-2">Don't have an account? <a href="{% url 'register' %}" class="f-w-400">Sign UP</a></p>
+							<p class="mb-2">في حال وجود أي مشكلة في الوصول لحسابك يجب الرجوع فوراً لفرع النظم</a></p>
 						</div>
 					</div>
 				</div>

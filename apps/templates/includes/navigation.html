@@ -31,10 +31,15 @@
                         {% endfor %}
                     </ul>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'home:invoice' %}" target="_blank">
+                    <a href="{% url 'home:invoice' %}">
                         <button type="button" class="btn btn-outline-danger">
                             منظومة الفواتير الإلكترونية
                             <i class="fa fa-external-link me-1" aria-hidden="true"></i>
+                        </button>
+                    </a>
+                    <a href="{% url 'logout' %}">
+                        أهلاً, {{ user.last_name }} اضغط للخروج
+                        <i class="fa fa-sign-out me-1" aria-hidden="true"></i>
                         </button>
                     </a>
                     {% else %}

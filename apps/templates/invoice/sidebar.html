@@ -17,6 +17,42 @@
 					</li>
 					{% comment %} End of General Section {% endcomment %}
 
+					{% comment %} IT Section: IT group has permission to view this section! {% endcomment %}
+					<li class="nav-item pcoded-menu-caption">
+						<label>إدارة بيانات المنظومة</label>
+					</li>
+					<li class="nav-item">
+						<a href="/add-company.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-plus-square"></i></span>
+							<span class="pcoded-mtext">إضافة شركة</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/list-company.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">قائمة الشركات</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/add-category.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-plus-square"></i></span>
+							<span class="pcoded-mtext">إضافة تصنيف</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/list-category.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">قائمة التصنيفات</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/add-department.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-plus-square"></i></span>
+							<span class="pcoded-mtext">إضافة قسم</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/list-department.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">قائمة الأقسام</span>
+						</a>
+					</li>
+					{% comment %} End of Purchase Section {% endcomment %}
+
 					{% comment %} Purchase Section: Purchasing Office group has permission to view this section! {% endcomment %}
 					<li class="nav-item pcoded-menu-caption">
 						<label>إدخال الفواتير</label>
@@ -38,6 +74,22 @@
 					</li>
 					{% comment %} End of Purchase Section {% endcomment %}
 					
+					{% comment %} Security Section: Security group has permission to view this section! {% endcomment %}
+					<li class="nav-item pcoded-menu-caption">
+						<label>إدارة الفواتير (الأمن)</label>
+					</li>
+					<li class="nav-item">
+						<a href="/end-sec-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">تصديق فاتورة</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/summary-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">ملخص الفواتير</span>
+						</a>
+					</li>
+					{% comment %} End of Finance Section {% endcomment %}
+
 					{% comment %} Finance Section: Finance group has permission to view this section! {% endcomment %}
 					<li class="nav-item pcoded-menu-caption">
 						<label>إدارة الفواتير (الماليات)</label>
@@ -90,7 +142,7 @@
 					{% comment %} End of Manager Section {% endcomment %}
 
 					{% comment %} Developer Section: Developers group has permission to view this section! {% endcomment %}
-					{% comment %} <li class="nav-item pcoded-menu-caption">
+					<li class="nav-item pcoded-menu-caption">
 						<label>النماذج</label>
 					</li>
 					<li class="nav-item">
@@ -147,7 +199,7 @@
 							<span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
 							<span class="pcoded-mtext">صفحة نموذجية</span>
 						</a>
-					</li> {% endcomment %}
+					</li>
 					{% comment %} End of Developer Section {% endcomment %}
 
 					<li class="nav-item mt-5">

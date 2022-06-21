@@ -6,14 +6,17 @@ Copyright (c) 2019 - present AppSeed.us
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.forms import formset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.views.generic import View
 
+from apps.invoice.forms import AddCategoryForm, AddCompanyForm, AddDepartmentForm, AddInvoiceForm, AddPurchaseForm
+
 from .models import Menu, Page, SubMenu, Carousel, MainIcon, Featurette
-from apps.invoice.models import Department
+from apps.invoice.models import Category, Company, Department
 from .forms import ContactForm
 
 
@@ -51,6 +54,15 @@ def pages(request):
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
+        context['invoice_form'] = AddInvoiceForm
+        context['purchase_form'] = AddPurchaseForm
+        context['company_form'] = AddCompanyForm
+        context['company_list'] = Company.objects.all().order_by('id')
+        context['category_form'] = AddCategoryForm
+        context['category_list'] = Category.objects.all().order_by('id')
+        context['department_form'] = AddDepartmentForm
+        context['department_list'] = Department.objects.all().order_by('id')
+        # context['test'] = formset_factory(AddInvoiceForm, extra=2)()
 
         html_template = loader.get_template('invoice/' + load_template)
         return HttpResponse(html_template.render(context, request))
@@ -73,7 +85,7 @@ def contact(request):
         return redirect('/#contact')
 
 class PageView(View):
-    def get(self,request, slug):
+    def get(self, request, slug):
         pages = get_object_or_404(Page, url=slug)
 
         context = {}

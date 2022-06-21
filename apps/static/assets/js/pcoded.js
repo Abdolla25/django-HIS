@@ -51,18 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
-    // search-bar
-    document.querySelector(".pop-search").addEventListener('click', function () {
-        slideDown(document.querySelector(".search-bar"), 200);
-        document.querySelector(".search-bar input").focus();
-    });
-    document.querySelector(".search-bar .btn-close").addEventListener('click', function () {
-        slideUp(document.querySelector(".search-bar"), 200);
-    });
-    if (document.querySelector('.pcoded-navbar').classList.contains('theme-horizontal')) {
-        rmactive();
-        horizontalmenu();
-    }
     // remove pre-loader start
     setTimeout(function () {
         document.querySelector('.loader-bg').remove();

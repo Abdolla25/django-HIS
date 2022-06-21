@@ -1,0 +1,77 @@
+{% extends "layouts/base-invoice.html" %}
+
+{% block title %} قائمة الشركات {% endblock %} 
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	{% comment %} [ Main Content ] start {% endcomment %}
+	<div class="pcoded-main-container">
+		<div class="pcoded-content">
+			{% comment %} [ breadcrumb ] start {% endcomment %}
+			<div class="page-header">
+				<div class="page-block">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="page-header-title">
+								<h5 class="m-b-10">قائمة الشركات</h5>
+							</div>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/invoice"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="#">قائمة الشركات</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% comment %} [ breadcrumb ] end {% endcomment %}
+			{% comment %} [ Main Content ] start {% endcomment %}
+			<div class="row">
+				{% comment %} [ sample-page ] start {% endcomment %}
+				<div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>قائمة الشركات المضافة للمنظومة</h5>
+                        </div>
+                        <div class="card-body table-border-style">
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>اسم الشركة</th>
+                                            <th>رقم السجل التجاري</th>
+                                            <th>تعديل؟</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for company in company_list %}
+                                        <tr>
+                                            <td>{{ company.id }}</td>
+                                            <td>{{ company.name }}</td>
+                                            <td>{{ company.commercialRegister }}</td>
+                                            <td>
+                                                <a href="/retrieve/company/{{ company.id }}/">
+                                                    <i class="feather icon-edit" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				{% comment %} [ sample-page ] end {% endcomment %}
+			</div>
+			{% comment %} [ Main Content ] end {% endcomment %}
+		</div>
+	</div>
+	{% comment %} [ Main Content ] end {% endcomment %}
+
+{% endblock content %}
+
+{% comment %} Specific Page JS goes HERE  {% endcomment %}
+{% block javascripts %}{% endblock javascripts %}

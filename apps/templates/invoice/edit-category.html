@@ -1,0 +1,91 @@
+{% extends "layouts/base-invoice.html" %}
+
+{% load static %}
+
+{% block title %} تعديل تصنيف {% endblock %} 
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	{% comment %} [ Main Content ] start {% endcomment %}
+	<div class="pcoded-main-container">
+		<div class="pcoded-content">
+			{% comment %} [ breadcrumb ] start {% endcomment %}
+			<div class="page-header">
+				<div class="page-block">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="page-header-title">
+								<h5 class="m-b-10">تعديل تصنيف</h5>
+							</div>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/invoice"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="#">تعديل تصنيف</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% comment %} [ breadcrumb ] end {% endcomment %}
+			{% comment %} [ Main Content ] start {% endcomment %}
+			<div class="row">
+				{% comment %} [ sample-page ] start {% endcomment %}
+				<div class="col-sm-12">
+					{% if messages %}
+					<div class="messages">
+						{% for message in messages %}
+						<div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+						{% endfor %}
+					</div>
+					{% endif %}
+					<form action="/editData/category/{{ category_data.id }}/" method="post">
+						{% csrf_token %}
+						<div class="card">
+							<div class="card-header">
+								<h5>معلومات التصنيف</h5>
+							</div>
+							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">اسم التصنيف</span>
+									</div>
+									<input type="text" name="name" maxlength="200" class="form-control" required="" id="id_name" value="{{ category_data.name }}">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-10 mx-auto">
+							<div class="card">
+								<div class="card-body">
+									<div class="col-6 mx-auto text-center">
+										<button class="btn  btn-success w-50" type="submit">تعديل التصنيف</button>
+										<button class="btn  btn-warning w-25" type="reset">تفريغ</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				{% comment %} [ sample-page ] end {% endcomment %}
+			</div>
+			{% comment %} [ Main Content ] end {% endcomment %}
+		</div>
+	</div>
+	{% comment %} [ Main Content ] end {% endcomment %}
+
+{% endblock content %}
+
+{% comment %} Specific Page JS goes HERE  {% endcomment %}
+{% block javascripts %}
+<script src="/admin/jsi18n/"></script>
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script src="/static/admin/js/calendar.js"></script>
+<script src="/static/admin/js/jquery.init.js"></script>
+<script src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+<script src="/static/admin/js/core.js"></script>
+<script>
+	window.onload = function() {
+		document.getElementById('calendarlink0').innerHTML = '<i class="feather icon-calendar"></i>';
+	};
+</script>
+{% endblock javascripts %}

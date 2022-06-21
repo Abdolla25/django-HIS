@@ -4,6 +4,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -12,46 +13,24 @@ class Company(models.Model):
     commercialRegister = models.IntegerField(unique=True, verbose_name='رقم السجل التجاري')
 
     def __str__(self) -> str:
-        return 'شركة %s مسجلة برقم: %s' % (self.name, self.commercialRegister)
+        return '%s | رقم السجل التجاري: %s' % (self.name, self.commercialRegister)
 
     class Meta:
         verbose_name = 'شركة'
         verbose_name_plural = 'شركات'
 
-class Person(models.Model):
-    name = models.CharField(max_length=200, verbose_name='الاسم')
-    militaryNumber = models.IntegerField(unique=True, verbose_name='الرقم العسكري')
+class Category(models.Model):
+    name = models.CharField(max_length=200, verbose_name='تصنيف')
 
     def __str__(self) -> str:
         return self.name
 
     class Meta:
-        verbose_name = 'فرد'
-        verbose_name_plural = 'أفراد'
-
-class Invoice(models.Model):
-    number = models.IntegerField(verbose_name='رقم الفاتورة')
-    purchase_date = models.DateField(verbose_name='تاريخ الشراء')
-    AUTHORIZATION = (
-        ('H', 'HOLD'),
-        ('A', 'ACCEPTED'),
-        ('R', 'REJECTED')
-    )
-    isFinanceAuth = models.CharField(verbose_name='تصديق الماليات؟', max_length=1, choices=AUTHORIZATION, default='H')
-    isDirectorAuth = models.CharField(verbose_name='تصديق المدير؟', max_length=1, choices=AUTHORIZATION, default='H')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='اسم الشركة')
-    entryPerson = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name='إدخال البيانات')
-
-    def __str__(self) -> str:
-        return '%s | #فاتورة %s' % (self.company, self.number)
-
-    class Meta:
-        verbose_name = 'فاتورة'
-        verbose_name_plural = 'فواتير'
-
+        verbose_name = 'تصنيف'
+        verbose_name_plural = 'تصنيفات'
+        
 class Department(models.Model):
-    name = models.CharField(max_length=200, verbose_name='اسم القسم')
-    head = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name='رئيس القسم')
+    name = models.CharField(max_length=200, verbose_name='قسم')
 
     def __str__(self) -> str:
         return self.name
@@ -61,21 +40,50 @@ class Department(models.Model):
         verbose_name_plural = 'أقسام'
 
 class Item(models.Model):
-    name = models.CharField(max_length=200, verbose_name='اسم العنصر')
-    quantity = models.SmallIntegerField(verbose_name='الكمية المضافة')
-    price = models.FloatField(verbose_name='سعر الوحدة')
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, verbose_name='القسم التابع له')
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, verbose_name='مضاف للفاتورة')
+    name = models.CharField(max_length=200, verbose_name='صنف')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='تصنيف الصنف')
 
     def __str__(self) -> str:
         return self.name
 
     class Meta:
-        verbose_name = 'عنصر'
-        verbose_name_plural = 'عناصر'
+        verbose_name = 'صنف'
+        verbose_name_plural = 'أصناف'
 
+class Invoice(models.Model):
+    number = models.IntegerField(verbose_name='رقم الفاتورة')
+    purchase_date = models.DateField(verbose_name='تاريخ الشراء')
+    STATE = (
+        ('A', 'في المشتريات'),
+        ('B', 'في الأمن'),
+        ('C', 'في الماليات'),
+        ('D', 'في الإدارة')
+    )
+    current_state = models.CharField(verbose_name='حالة الفاتورة الحالية', max_length=1, choices=STATE, default='A')
+    company = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name='اسم الشركة')
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, verbose_name='موجه للقسم')
+    entryPerson = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='إدخال البيانات')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='تصنيف الفاتورة')
 
+    def __str__(self) -> str:
+        return '%s | #فاتورة %s' % (self.company, self.number)
 
+    class Meta:
+        verbose_name = 'فاتورة'
+        verbose_name_plural = 'فواتير'
+
+class Purchase(models.Model):
+    quantity = models.SmallIntegerField(verbose_name='الكمية المضافة')
+    price = models.FloatField(verbose_name='سعر الوحدة')
+    item = models.ForeignKey(Item, on_delete=models.DO_NOTHING, verbose_name='صنف')
+    invoice = models.ForeignKey(Invoice, on_delete=models.DO_NOTHING, verbose_name='فاتورة')
+
+    def __str__(self) -> str:
+        return '{} | عدد: {}'.format(self.item, self.quantity)
+
+    class Meta:
+        verbose_name = 'عملية شراء'
+        verbose_name_plural = 'عمليات شراء'
 
 
 # # For Reference ...
