@@ -12,7 +12,7 @@ app_name = 'home'
 
 urlpatterns = [
 
-    path('invoice', views.invoice, name='invoice'),
+    path('invoice/', views.invoice, name='invoice'),
 
     path('contact/', views.contact, name='contact'),
     path('addData/<str:model>/', addData, name='addCompany'),
