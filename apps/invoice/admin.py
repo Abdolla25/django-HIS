@@ -2,21 +2,20 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Company, Category, Department, Invoice, Item, Purchase
+from .models import Company, Category, Department, Invoice, Item
 
 admin.site.register(Company)
 admin.site.register(Category)
 admin.site.register(Department)
 admin.site.register(Item)
-admin.site.register(Purchase)
 
 # class ChoiceInline(admin.StackedInline):
-class PurchaseInline(admin.TabularInline):
-    model = Purchase
+class ItemInline(admin.TabularInline):
+    model = Item
     extra = 1
     
 class InvoiceAdmin(admin.ModelAdmin):
-    inlines = [PurchaseInline]
+    inlines = [ItemInline]
 
 admin.site.register(Invoice, InvoiceAdmin)
 

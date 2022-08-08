@@ -39,8 +39,8 @@
 						{% endfor %}
 					</div>
 					{% endif %}
-					<form action="/addData/invoice" method="get">
-						{% comment %} {% csrf_token %} {% endcomment %}
+					<form action="#" method="post">
+						{% csrf_token %}
 						<div class="card">
 							<div class="card-header">
 								<h5>معلومات الفاتورة</h5>
@@ -61,18 +61,12 @@
 										<span class="input-group-text" id="basic-addon2">رقم الفاتورة</span>
 									</div>
 									{{ invoice_form.number }}
-									{% comment %} <input class="form-control" type="text"> {% endcomment %}
 								</div>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="basic-addon2">تاريخ الفاتورة</span>
 									</div>
 									{{ invoice_form.purchase_date }}
-									<div class="input-group-append">
-										{% comment %} <span class="datetimeshortcuts">&nbsp;<a href="#">اليوم</a>&nbsp;|&nbsp;<a href="#" id="calendarlink0"><i class="feather icon-calendar"></i></a></span> {% endcomment %}
-										{% comment %} <button class="btn  btn-secondary" type="button">اليوم</button>
-										<button class="btn  btn-primary" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button> {% endcomment %}
-									</div>
 								</div>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
@@ -88,17 +82,23 @@
 								</div>
 							</div>
 						</div>
-						{% comment %} <div class="card">
+						<div class="card">
 							<div class="card-header">
 								<h5>تفاصيل الفاتورة</h5>
 							</div>
 							<div class="card-body">
+								<button href="#addItemModal" type="button" class="btn btn-link" data-bs-toggle="modal">
+									<i class="fa fa-plus-circle" style="color: green;" aria-hidden="true"></i>
+									إضافة صنف
+								</button>
+								{% if items|length > 0 %}
 								<div class="table-responsive">
 									<table class="table table-hover text-center">
 										<thead>
 											<tr>
 												<th>#</th>
 												<th>الصنف</th>
+												<th>الوصف</th>
 												<th>الكمية</th>
 												<th>سعر الوحدة</th>
 												<th>السعر الإجمالي</th>
@@ -106,57 +106,57 @@
 											</tr>
 										</thead>
 										<tbody>
+											{% for item in items %}
 											<tr>
-												<td>1</td>
 												<td>
-													{{ purchase_form.item }}
+													{{ forloop.counter }}
 												</td>
 												<td>
-													{{ purchase_form.quantity }}
+													{{ item.name }}
 												</td>
 												<td>
-													{{ purchase_form.price }}
+													{{ item.description }}
 												</td>
 												<td>
-													<input class="form-control" type="number" value="3000" name="" id="" readonly>
+													{{ item.quantity }}
 												</td>
 												<td>
-													<a href="#">
+													{{ item.price }}
+												</td>
+												<td>
+													{% widthratio item.quantity 1 item.price %}
+												</td>
+												<td>
+													<a href="{% url 'home:delete-item' slug=item.slug  inv_slug=inv_slug %}">
 														<i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i>
 													</a>
 												</td>
 											</tr>
+											{% endfor %}
 										</tbody>
 										<tfoot>
 											<tr>
-												<td colspan="6">
-													<a href="#">
-														<i class="fa fa-plus-circle" style="color: green;" aria-hidden="true"></i>
-														إضافة صنف
-													</a>
-												</td>
-											</tr>
-											<tr>
 												<th colspan="3">عدد الأصناف</th>
-												<th colspan="3">1</th>
+												<th colspan="4">{{ items_count }}</th>
 											</tr>
 											<tr>
-												<th colspan="3">إجمالي سعر الفاتورة</th>
-												<th colspan="3">3000</th>
+												<th colspan="3">إجمالي سعر الأصناف</th>
+												<th colspan="4">{{ items_total }}</th>
 											</tr>
 											<tr>
 												<th colspan="3">ضريبة القيمة المضافة (14%)</th>
-												<th colspan="3">420</th>
+												<th colspan="4">{{ items_tax }}</th>
 											</tr>
 											<tr>
-												<th colspan="3">تكلفة الفاتورة</th>
-												<th colspan="3">3420</th>
+												<th colspan="3">إجمالي الفاتورة</th>
+												<th colspan="4">{{ items_inv }}</th>
 											</tr>
 										</tfoot>
 									</table>
 								</div>
+								{% endif %}
 							</div>
-						</div> {% endcomment %}
+						</div>
 						<div class="col-md-10 mx-auto">
 							<div class="card">
 								<div class="card-body">
@@ -165,24 +165,23 @@
 											<span class="input-group-text">إدخال البيانات</span>
 										</div>
 										<div class="custom-file col-8">
-											{{ invoice_form.entryPerson }}
-											{% comment %} <input class="form-control" id="inputUsername" type="text" placeholder="{{ user.first_name }}/ {{ user.last_name }}" readonly> {% endcomment %}
+											<input type="text" name="entryPerson" maxlength="100" class="form-control" readonly="" id="id_entryPerson" value="{{ user }}">
 										</div>
 										<div class="input-group-append col-2">
 											<a href="{% url 'logout' %}">
 												<button class="btn  btn-danger w-100" type="button">
-													تسجيل خروج
+													تغيير الحساب
 												</button>
 											</a>
 										</div>
 									</div>
-									<div class="custom-control custom-checkbox mb-3">
-										<input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
-										<label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسمي أعلاه وليس اسم شخص آخر</label>
-									</div>
+									{% comment %} <div class="custom-control custom-checkbox mb-3"> {% endcomment %}
+										{% comment %} <input type="checkbox" class="custom-control-input" id="customControlValidation1" required> {% endcomment %}
+										{% comment %} <label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسمي أعلاه وليس اسم شخص آخر</label> {% endcomment %}
+									{% comment %} </div> {% endcomment %}
 									<div class="col-6 mx-auto text-center">
-										<button class="btn  btn-success w-50" type="submit">إضافة الفاتورة</button>
-										<button class="btn  btn-warning w-25" type="reset">تفريغ</button>
+										<button class="btn  btn-success w-50" type="submit">تحديث الفاتورة</button>
+										<button class="btn  btn-warning w-25" type="reset">إعادة</button>
 									</div>
 								</div>
 							</div>
@@ -195,6 +194,54 @@
 		</div>
 	</div>
 	{% comment %} [ Main Content ] end {% endcomment %}
+	<div class="modal modal-sheet py-5" tabindex="-1" id="addItemModal">
+		<div class="modal-dialog">
+			<div class="modal-content rounded-6 shadow">
+				<form action="#" method="post">
+				{% csrf_token %}
+				<div class="modal-header border-bottom-0">
+					<h5 class="modal-title">إضافة صنف للفاتورة</h5>
+					<button type="button" class="btn-close ms-auto me-0" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body py-0">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">اسم</span>
+						</div>
+						{{item_form.name}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">وصف</span>
+						</div>
+						{{item_form.description}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">كمية</span>
+						</div>
+						{{item_form.quantity}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">سعر</span>
+						</div>
+						{{item_form.price}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">تصنيف</span>
+						</div>
+						{{item_form.category}}
+					</div>
+				</div>
+				<div class="modal-footer flex-column border-top-0">
+					<button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">أضف للفاتورة</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 {% endblock content %}
 

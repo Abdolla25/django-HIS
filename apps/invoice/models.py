@@ -1,90 +1,203 @@
 from operator import mod
 from tkinter import CASCADE
+from uuid import uuid4
 from django.db import models
-import datetime
+from django.template.defaultfilters import slugify
+from django.urls import reverse
 from django.utils import timezone
 from django.contrib import admin
-from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Company(models.Model):
-    name = models.CharField(max_length=200, verbose_name='اسم الشركة')
-    commercialRegister = models.IntegerField(unique=True, verbose_name='رقم السجل التجاري')
+    # Basic Fields
+    name = models.CharField(null=True, blank=True, max_length=200, verbose_name='اسم الشركة')
+    commercialRegister = models.IntegerField(null=True, blank=True, unique=True, verbose_name='رقم السجل التجاري')
+
+    # Utility Fields
+    uniqueId = models.CharField(null=True, blank=True, max_length=100)
+    slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
+    date_created = models.DateTimeField(blank=True, null=True)
+    last_updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return '%s | رقم السجل التجاري: %s' % (self.name, self.commercialRegister)
+    
+    def get_absolute_url(self):
+        return reverse('company-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if self.date_created is None:
+            self.date_created = timezone.localtime(timezone.now())
+        if self.uniqueId is None:
+            self.uniqueId = str(uuid4()).split('-')[4]
+            self.slug = slugify('{} {} {}'.format(self.name, self.commercialRegister, self.uniqueId))
+
+        self.slug = slugify('{} {} {}'.format(self.name, self.commercialRegister, self.uniqueId))
+        self.last_updated = timezone.localtime(timezone.now())
+
+        super(Company, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'شركة'
         verbose_name_plural = 'شركات'
 
 class Category(models.Model):
-    name = models.CharField(max_length=200, verbose_name='تصنيف')
+    # Basic Fields
+    name = models.CharField(null=True, blank=True, max_length=200, verbose_name='تصنيف')
+
+    # Utility Fields
+    uniqueId = models.CharField(null=True, blank=True, max_length=100)
+    slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
+    date_created = models.DateTimeField(blank=True, null=True)
+    last_updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('category-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if self.date_created is None:
+            self.date_created = timezone.localtime(timezone.now())
+        if self.uniqueId is None:
+            self.uniqueId = str(uuid4()).split('-')[4]
+            self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+
+        self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+        self.last_updated = timezone.localtime(timezone.now())
+
+        super(Category, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'تصنيف'
         verbose_name_plural = 'تصنيفات'
         
 class Department(models.Model):
-    name = models.CharField(max_length=200, verbose_name='قسم')
+    # Basic Fields
+    name = models.CharField(null=True, blank=True, max_length=200, verbose_name='قسم')
+
+    # Utility Fields
+    uniqueId = models.CharField(null=True, blank=True, max_length=100)
+    slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
+    date_created = models.DateTimeField(blank=True, null=True)
+    last_updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('department-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if self.date_created is None:
+            self.date_created = timezone.localtime(timezone.now())
+        if self.uniqueId is None:
+            self.uniqueId = str(uuid4()).split('-')[4]
+            self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+
+        self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+        self.last_updated = timezone.localtime(timezone.now())
+
+        super(Department, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'قسم'
         verbose_name_plural = 'أقسام'
 
-class Item(models.Model):
-    name = models.CharField(max_length=200, verbose_name='صنف')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='تصنيف الصنف')
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = 'صنف'
-        verbose_name_plural = 'أصناف'
-
 class Invoice(models.Model):
-    number = models.IntegerField(verbose_name='رقم الفاتورة')
-    purchase_date = models.DateField(verbose_name='تاريخ الشراء')
     STATE = (
         ('A', 'في المشتريات'),
         ('B', 'في الأمن'),
         ('C', 'في الماليات'),
         ('D', 'في الإدارة')
     )
-    current_state = models.CharField(verbose_name='حالة الفاتورة الحالية', max_length=1, choices=STATE, default='A')
-    company = models.ForeignKey(Company, on_delete=models.PROTECT, verbose_name='اسم الشركة')
-    department = models.ForeignKey(Department, on_delete=models.PROTECT, verbose_name='موجه للقسم')
-    entryPerson = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='إدخال البيانات')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='تصنيف الفاتورة')
+
+    # Basic Fields
+    number = models.CharField(null=True, blank=True, max_length=100, verbose_name='رقم الفاتورة')
+    entryPerson = models.CharField(null=True, blank=True, max_length=100, verbose_name='إدخال البيانات')
+    purchase_date = models.DateField(null=True, blank=True, verbose_name='تاريخ الشراء')
+    current_state = models.CharField(null=True, blank=True, verbose_name='حالة الفاتورة الحالية', max_length=1, choices=STATE, default='A')
+
+    # Related Fields
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.PROTECT, verbose_name='اسم الشركة')
+    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.PROTECT, verbose_name='موجه للقسم')
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.PROTECT, verbose_name='تصنيف الفاتورة')
+
+    # Utility Fields
+    uniqueId = models.CharField(null=True, blank=True, max_length=100, default=None)
+    slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
+    date_created = models.DateTimeField(blank=True, null=True, default=None)
+    last_updated = models.DateTimeField(blank=True, null=True, default=None)
 
     def __str__(self) -> str:
         return '%s | #فاتورة %s' % (self.company, self.number)
 
+    def get_absolute_url(self):
+        return reverse('invoice-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if self.date_created is None:
+            self.date_created = timezone.localtime(timezone.now())
+        if self.uniqueId is None:
+            self.uniqueId = str(uuid4()).split('-')[4]
+            self.slug = slugify('{}'.format(self.uniqueId))
+
+        self.slug = slugify('{}'.format(self.uniqueId))
+        self.last_updated = timezone.localtime(timezone.now())
+
+        super(Invoice, self).save(*args, **kwargs)
+
     class Meta:
+        permissions = [
+            ("it", "نظم المعلومات"),
+            ("purchase", "مكتب المشتريات"),
+            ("finance", "الماليات"),
+            ("director", "المدير"),
+            ("security", "الأمن"),
+        ]
         verbose_name = 'فاتورة'
         verbose_name_plural = 'فواتير'
 
-class Purchase(models.Model):
-    quantity = models.SmallIntegerField(verbose_name='الكمية المضافة')
+class Item(models.Model):
+    # Basic Fields
+    name = models.CharField(max_length=200, verbose_name='صنف')
+    description = models.CharField(null=True, blank=True, max_length=200, verbose_name='وصف')
+    quantity = models.FloatField(verbose_name='الكمية')
     price = models.FloatField(verbose_name='سعر الوحدة')
-    item = models.ForeignKey(Item, on_delete=models.DO_NOTHING, verbose_name='صنف')
-    invoice = models.ForeignKey(Invoice, on_delete=models.DO_NOTHING, verbose_name='فاتورة')
+
+    # Related Fields
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='تصنيف الصنف')
+    invoice = models.ForeignKey(Invoice, blank=True, null=True, on_delete=models.CASCADE, verbose_name='الفاتورة')
+
+    # Utility Fields
+    uniqueId = models.CharField(null=True, blank=True, max_length=100)
+    slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
+    date_created = models.DateTimeField(blank=True, null=True)
+    last_updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return '{} | عدد: {}'.format(self.item, self.quantity)
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('item-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if self.date_created is None:
+            self.date_created = timezone.localtime(timezone.now())
+        if self.uniqueId is None:
+            self.uniqueId = str(uuid4()).split('-')[4]
+            self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+
+        self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+        self.last_updated = timezone.localtime(timezone.now())
+
+        super(Item, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'عملية شراء'
-        verbose_name_plural = 'عمليات شراء'
-
+        verbose_name = 'صنف'
+        verbose_name_plural = 'أصناف'
 
 # # For Reference ...
 # class Question(models.Model):

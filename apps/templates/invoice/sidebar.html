@@ -11,13 +11,14 @@
 
 					{% comment %} General Section: All groups have permission to view this section! {% endcomment %}
 					<li class="nav-item">
-						<a href="/invoice" class="nav-link "><span class="pcoded-micon"><i class="feather icon-eye"></i></span>
+						<a href="{% url 'home:invoice' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-eye"></i></span>
 							<span class="pcoded-mtext">نظرة عامة</span>
 						</a>
 					</li>
 					{% comment %} End of General Section {% endcomment %}
 
 					{% comment %} IT Section: IT group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.it %}
 					<li class="nav-item pcoded-menu-caption">
 						<label>إدارة بيانات المنظومة</label>
 					</li>
@@ -51,20 +52,17 @@
 							<span class="pcoded-mtext">قائمة الأقسام</span>
 						</a>
 					</li>
+					{% endif %}
 					{% comment %} End of Purchase Section {% endcomment %}
 
 					{% comment %} Purchase Section: Purchasing Office group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.purchase %}
 					<li class="nav-item pcoded-menu-caption">
 						<label>إدخال الفواتير</label>
 					</li>
 					<li class="nav-item">
-						<a href="/add-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-plus-square"></i></span>
+						<a href="{% url 'home:create-invoice' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-plus-square"></i></span>
 							<span class="pcoded-mtext">إضافة فاتورة</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="/edit-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-edit" aria-hidden="true"></i></span>
-							<span class="pcoded-mtext">تعديل فاتورة</span>
 						</a>
 					</li>
 					<li class="nav-item">
@@ -72,11 +70,13 @@
 							<span class="pcoded-mtext">ملخص الفواتير</span>
 						</a>
 					</li>
+					{% endif %}
 					{% comment %} End of Purchase Section {% endcomment %}
 					
 					{% comment %} Security Section: Security group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.security %}
 					<li class="nav-item pcoded-menu-caption">
-						<label>إدارة الفواتير (الأمن)</label>
+						<label>إدارة الفواتير</label>
 					</li>
 					<li class="nav-item">
 						<a href="/end-sec-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
@@ -88,11 +88,13 @@
 							<span class="pcoded-mtext">ملخص الفواتير</span>
 						</a>
 					</li>
-					{% comment %} End of Finance Section {% endcomment %}
+					{% endif %}
+					{% comment %} End of Security Section {% endcomment %}
 
 					{% comment %} Finance Section: Finance group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.finance %}
 					<li class="nav-item pcoded-menu-caption">
-						<label>إدارة الفواتير (الماليات)</label>
+						<label>إدارة الفواتير</label>
 					</li>
 					<li class="nav-item">
 						<a href="/end-fin-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
@@ -104,11 +106,13 @@
 							<span class="pcoded-mtext">ملخص الفواتير</span>
 						</a>
 					</li>
+					{% endif %}
 					{% comment %} End of Finance Section {% endcomment %}
 
 					{% comment %} Manager Section: Managers group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.director %}
 					<li class="nav-item pcoded-menu-caption">
-						<label>إدارة الفواتير (الإدارة)</label>
+						<label>إدارة الفواتير</label>
 					</li>
 					<li class="nav-item">
 						<a href="/end-dir-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
@@ -139,10 +143,11 @@
 							<span class="pcoded-mtext">الشكاوى</span>
 						</a>
 					</li>
+					{% endif %}
 					{% comment %} End of Manager Section {% endcomment %}
 
 					{% comment %} Developer Section: Developers group has permission to view this section! {% endcomment %}
-					<li class="nav-item pcoded-menu-caption">
+					{% comment %} <li class="nav-item pcoded-menu-caption">
 						<label>النماذج</label>
 					</li>
 					<li class="nav-item">
@@ -199,7 +204,7 @@
 							<span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
 							<span class="pcoded-mtext">صفحة نموذجية</span>
 						</a>
-					</li>
+					</li> {% endcomment %}
 					{% comment %} End of Developer Section {% endcomment %}
 
 					<li class="nav-item mt-5">

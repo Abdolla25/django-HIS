@@ -15,7 +15,7 @@
 					<div class="row align-items-center">
 						<div class="col-md-12">
 							<div class="page-header-title">
-								<h5 class="m-b-10">ملخص الفاتورة</h5>
+								<h5 class="m-b-10">ملخص الفواتير</h5>
 							</div>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/invoice"><i class="feather icon-home"></i></a></li>
@@ -51,8 +51,8 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>شركة إيجي تك</td>
-                                            <td>412553</td>
+                                            <td>{{ perms.invoice.purchase }}</td>
+                                            <td>{{ user }}</td>
                                             <td>15/06/2022</td>
                                             <td>فاتورة مستلزمات مكتبية</td>
                                             <td>فرع النظم</td>
