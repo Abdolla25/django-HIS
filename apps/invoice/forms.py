@@ -8,28 +8,28 @@ class AddCompanyForm(ModelForm):
         super(AddCompanyForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['commercialRegister'].widget.attrs.update({'class': 'form-control'})
-    
     class Meta:
         model = Company
         fields = '__all__'
+
 
 class AddCategoryForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddCategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-    
     class Meta:
         model = Category
         fields = '__all__'
+
 
 class AddDepartmentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddDepartmentForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-    
     class Meta:
         model = Department
         fields = '__all__'
+
 
 class AddInvoiceForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -40,10 +40,10 @@ class AddInvoiceForm(ModelForm):
         self.fields['category'].widget.attrs.update({'class': 'form-control', 'required': ''})
         self.fields['department'].widget.attrs.update({'class': 'form-control', 'required': ''})
         self.fields['entryPerson'].widget.attrs.update({'class': 'form-control', 'readonly': '', 'required': ''})
-    
     class Meta:
         model = Invoice
         fields = '__all__'
+
 
 class AddItemForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -52,8 +52,18 @@ class AddItemForm(ModelForm):
         self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['quantity'].widget.attrs.update({'class': 'form-control'})
         self.fields['price'].widget.attrs.update({'class': 'form-control'})
-        self.fields['category'].widget.attrs.update({'class': 'form-control'})
-    
+    class Meta:
+        model = Item
+        fields = '__all__'
+
+
+class AddItemForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AddItemForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['quantity'].widget.attrs.update({'class': 'form-control'})
+        self.fields['price'].widget.attrs.update({'class': 'form-control'})
     class Meta:
         model = Item
         fields = '__all__'

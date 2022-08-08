@@ -39,7 +39,7 @@
 						{% endfor %}
 					</div>
 					{% endif %}
-					<form action="#" method="post">
+					<form action="#details" method="post">
 						{% csrf_token %}
 						<div class="card">
 							<div class="card-header">
@@ -81,8 +81,30 @@
 									{{ invoice_form.department }}
 								</div>
 							</div>
+							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend col-2">
+										<span class="input-group-text">إدخال البيانات</span>
+									</div>
+									<div class="custom-file col-8">
+										<input type="text" name="entryPerson" maxlength="100" class="form-control" readonly="" id="id_entryPerson" value="{{ user }}">
+									</div>
+									<div class="input-group-append col-2">
+										<a href="{% url 'logout' %}">
+											<button class="btn  btn-danger w-100" type="button">
+												تغيير الحساب
+											</button>
+										</a>
+									</div>
+								</div>
+								<div class="col-6 mx-auto text-center">
+									<button class="btn  btn-success w-50" type="submit">حفظ معلومات الفاتورة</button>
+									<button class="btn  btn-warning w-25" type="reset">إعادة تعيين</button>
+								</div>
+							</div>
 						</div>
-						<div class="card">
+						{% if invoice.number %}
+						<div id="details" class="card">
 							<div class="card-header">
 								<h5>تفاصيل الفاتورة</h5>
 							</div>
@@ -124,7 +146,7 @@
 													{{ item.price }}
 												</td>
 												<td>
-													{% widthratio item.quantity 1 item.price %}
+													{{ item.total_price }}
 												</td>
 												<td>
 													<a href="{% url 'home:delete-item' slug=item.slug  inv_slug=inv_slug %}">
@@ -157,36 +179,26 @@
 								{% endif %}
 							</div>
 						</div>
-						<div class="col-md-10 mx-auto">
-							<div class="card">
-								<div class="card-body">
-									<div class="input-group mb-3">
-										<div class="input-group-prepend col-2">
-											<span class="input-group-text">إدخال البيانات</span>
-										</div>
-										<div class="custom-file col-8">
-											<input type="text" name="entryPerson" maxlength="100" class="form-control" readonly="" id="id_entryPerson" value="{{ user }}">
-										</div>
-										<div class="input-group-append col-2">
-											<a href="{% url 'logout' %}">
-												<button class="btn  btn-danger w-100" type="button">
-													تغيير الحساب
-												</button>
-											</a>
-										</div>
-									</div>
-									{% comment %} <div class="custom-control custom-checkbox mb-3"> {% endcomment %}
-										{% comment %} <input type="checkbox" class="custom-control-input" id="customControlValidation1" required> {% endcomment %}
-										{% comment %} <label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسمي أعلاه وليس اسم شخص آخر</label> {% endcomment %}
-									{% comment %} </div> {% endcomment %}
-									<div class="col-6 mx-auto text-center">
-										<button class="btn  btn-success w-50" type="submit">تحديث الفاتورة</button>
-										<button class="btn  btn-warning w-25" type="reset">إعادة</button>
-									</div>
+						{% endif %}
+					</form>
+					{% if items|length > 0 %}
+					<form action="#" method="post">
+						<div class="card">
+							<div class="card-header">
+								<h5>حفظ وإرسال الفاتورة</h5>
+							</div>
+							<div class="card-body">
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
+									<label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسم المستخدم الخاص بي أعلاه وليس اسم شخص آخر ...</label>
+								</div>
+								<div class="col-6 mx-auto text-center">
+									<button class="btn  btn-primary w-50" type="submit">إرسال الفاتورة للمراجعة</button>
 								</div>
 							</div>
 						</div>
 					</form>
+					{% endif %}
 				</div>
 				{% comment %} [ sample-page ] end {% endcomment %}
 			</div>
@@ -197,7 +209,7 @@
 	<div class="modal modal-sheet py-5" tabindex="-1" id="addItemModal">
 		<div class="modal-dialog">
 			<div class="modal-content rounded-6 shadow">
-				<form action="#" method="post">
+				<form action="#details" method="post">
 				{% csrf_token %}
 				<div class="modal-header border-bottom-0">
 					<h5 class="modal-title">إضافة صنف للفاتورة</h5>
@@ -227,12 +239,6 @@
 							<span class="input-group-text" id="basic-addon2">سعر</span>
 						</div>
 						{{item_form.price}}
-					</div>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon2">تصنيف</span>
-						</div>
-						{{item_form.category}}
 					</div>
 				</div>
 				<div class="modal-footer flex-column border-top-0">

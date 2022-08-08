@@ -5,6 +5,8 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+{% comment %} {{ perms.invoice.purchase }}
+{{ user }} {% endcomment %}
 
 	{% comment %} [ Main Content ] start {% endcomment %}
 	<div class="pcoded-main-container">
@@ -32,7 +34,15 @@
 				<div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>قائمة الفواتير المتاحة للتعديل/للاعتماد</h5>
+                            <h5>
+                                قائمة الفواتير المتاحة 
+                                {% if perms.invoice.it or perms.invoice.purchase %}
+                                للتعديل
+                                {% endif %}
+                                {% if perms.invoice.security or perms.invoice.finance or perms.invoice.director %}
+                                للاعتماد
+                                {% endif %}
+                            </h5>
                         </div>
                         <div class="card-body table-border-style">
                             <div class="table-responsive">
@@ -45,42 +55,46 @@
                                             <th>تاريخ الفاتورة</th>
                                             <th>تصنيف الفاتورة</th>
                                             <th>موجهة للقسم</th>
-                                            <th>تعديل/اعتماد</th>
+                                            {% if perms.invoice.it %}
+                                            <th>حالة الفاتورة</th>
+                                            {% endif %}
+                                            <th>
+                                                {% if perms.invoice.it or perms.invoice.purchase %}
+                                                تعديل
+                                                {% endif %}
+                                                {% if perms.invoice.security or perms.invoice.finance or perms.invoice.director %}
+                                                اعتماد
+                                                {% endif %}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for invoice in invoice_list %}
                                         <tr>
-                                            <td>1</td>
-                                            <td>{{ perms.invoice.purchase }}</td>
-                                            <td>{{ user }}</td>
-                                            <td>15/06/2022</td>
-                                            <td>فاتورة مستلزمات مكتبية</td>
-                                            <td>فرع النظم</td>
+                                            <td>{{ invoice.id }}</td>
+                                            <td>{{ invoice.company }}</td>
+                                            <td>{{ invoice.number }}</td>
+                                            <td>{{ invoice.purchase_date }}</td>
+                                            <td>{{ invoice.category }}</td>
+                                            <td>{{ invoice.department }}</td>
+                                            {% if perms.invoice.it %}
+                                            <td>{{ invoice.current_state }}</td>
+                                            {% endif %}
                                             <td>
-                                                <a href="#">
+                                                {% if perms.invoice.it or perms.invoice.purchase %}
+                                                <a href="/inv/{{ invoice.slug }}">
                                                     <i class="feather icon-edit" aria-hidden="true"></i>
-                                                </a>/
+                                                </a>
+                                                {% endif %}
+                                                {% if perms.invoice.security or perms.invoice.finance or perms.invoice.director %}
                                                 <a href="#">
                                                     <i class="feather icon-check-square" aria-hidden="true"></i>
                                                 </a>
+                                                {% endif %}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>42</td>
-                                            <td>شركة محمود علاء</td>
-                                            <td>412553</td>
-                                            <td>18/06/2022</td>
-                                            <td>فاتورة أدوات</td>
-                                            <td>قسم الأشغال</td>
-                                            <td>
-                                                <a href="#">
-                                                    <i class="feather icon-edit" aria-hidden="true"></i>
-                                                </a>/
-                                                <a href="#">
-                                                    <i class="feather icon-check-square" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        {% endfor %}
+                                        
                                     </tbody>
                                 </table>
                             </div>

@@ -22,6 +22,8 @@ from .models import Menu, Page, SubMenu, Carousel, MainIcon, Featurette
 from apps.invoice.models import Category, Company, Department, Invoice, Item
 from .forms import ContactForm
 
+import numpy as np
+
 inv_slug = ''
 
 def index(request):
@@ -60,6 +62,19 @@ def pages(request):
         context['category_list'] = Category.objects.all().order_by('id')
         context['department_form'] = AddDepartmentForm
         context['department_list'] = Department.objects.all().order_by('id')
+        print(request.user.has_perm('invoice.it'))
+        if request.user.has_perm('invoice.it'):
+            context['invoice_list'] = Invoice.objects.filter(number__isnull=False).order_by('-last_updated')
+        else:
+            if request.user.has_perm('invoice.purchase'):
+                state = "A"
+            elif request.user.has_perm('invoice.security'):
+                state = "B"
+            elif request.user.has_perm('invoice.finance'):
+                state = "C"
+            elif request.user.has_perm('invoice.director'):
+                state = "D"
+            context['invoice_list'] = Invoice.objects.filter(number__isnull=False, current_state=state).order_by('-last_updated')
         html_template = loader.get_template('invoice/' + load_template)
         return HttpResponse(html_template.render(context, request))
     except template.TemplateDoesNotExist:
@@ -76,6 +91,10 @@ def listInvP(request):
 
 @permission_required('invoice.purchase', login_url="/login/")
 def createInvoice(request):
+    #clear empty instances
+    empty_inv = Invoice.objects.filter(number__isnull=True)
+    for x in empty_inv:
+        x.delete()
     #create a blank invoice ....
     random = str(uuid4())
     newInvoice = Invoice.objects.create(entryPerson=random)
@@ -98,11 +117,12 @@ def createBuildInvoice(request, slug):
     context['invoice'] = invoice
     context['items'] = items
     context['items_count'] = items.count()
-    total = items.aggregate(total=Sum(F('price') * F('quantity')))['total']
-    context['items_total'] = total
-    tax = items.aggregate(total=(Sum(F('price') * F('quantity'))) * 0.14)['total']
-    context['items_tax'] = tax
-    context['items_inv'] = items.aggregate(total=(Sum(F('price') * F('quantity'))) * 1.14)['total']
+    if items.aggregate(total=Sum('total_price'))['total']:
+        total = np.round(float(items.aggregate(total=Sum('total_price'))['total']), decimals=4)
+        tax = np.round(np.multiply(total, 0.14), decimals=4)
+        context['items_total'] = total
+        context['items_tax'] = tax
+        context['items_inv'] = np.round(np.add(total, tax), decimals=4)
     context['inv_slug'] = slug
     if request.method == 'GET':
         item_form  = AddItemForm()
