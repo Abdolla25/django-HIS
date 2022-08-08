@@ -1,7 +1,7 @@
 from dataclasses import field
 from django.forms import ModelForm
 
-from .models import Category, Company, Department, Invoice, Item
+from .models import Category, Comment, Company, Department, Invoice, Item
 
 class AddCompanyForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -57,15 +57,12 @@ class AddItemForm(ModelForm):
         fields = '__all__'
 
 
-class AddItemForm(ModelForm):
+class AddCommentForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(AddItemForm, self).__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'form-control'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control'})
-        self.fields['quantity'].widget.attrs.update({'class': 'form-control'})
-        self.fields['price'].widget.attrs.update({'class': 'form-control'})
+        super(AddCommentForm, self).__init__(*args, **kwargs)
+        self.fields['detail'].widget.attrs.update({'class': 'form-control'})
     class Meta:
-        model = Item
+        model = Comment
         fields = '__all__'
 
 # class ContactForm(forms.Form):

@@ -16,7 +16,6 @@ urlpatterns = [
 
     path('addInvoice/',views.createInvoice, name='create-invoice'),
     path('inv/<slug:slug>',views.createBuildInvoice, name='create-build-invoice'),
-    path('deleteInvoice/<slug:slug>',views.deleteInvoice, name='delete-invoice'),
     path('deleteItem/<slug:slug>/<slug:inv_slug>',views.deleteItem, name='delete-item'),
     path('contact/', views.contact, name='contact'),
     path('addData/<str:model>/', addData, name='addData'),

@@ -183,11 +183,18 @@
 					</form>
 					{% if items|length > 0 %}
 					<form action="#" method="post">
+						{% csrf_token %}
 						<div class="card">
 							<div class="card-header">
 								<h5>حفظ وإرسال الفاتورة</h5>
 							</div>
 							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">أضف ملاحظة</span>
+									</div>
+									{{ comment_form.detail }}
+								</div>
 								<div class="custom-control custom-checkbox mb-3">
 									<input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
 									<label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسم المستخدم الخاص بي أعلاه وليس اسم شخص آخر ...</label>
@@ -195,6 +202,22 @@
 								<div class="col-6 mx-auto text-center">
 									<button class="btn  btn-primary w-50" type="submit">إرسال الفاتورة للمراجعة</button>
 								</div>
+								{% if comments|length > 0 %}
+								<div class="card mt-5">
+									<div class="card-header">
+										<h5>ملاحظات مسجلة:</h5>
+									</div>
+									{% for comment in comments %}
+									<div class="card-body text-center">
+										<h5 class="card-title">{{ comment.entryPerson }}</h5>
+										<p class="card-text">{{ comment.detail }}</p>
+									</div>
+									<div class="card-footer text-muted text-end">
+										{{ comment.date_created }}
+									</div>
+									{% endfor %}
+								</div>
+								{% endif %}
 							</div>
 						</div>
 					</form>

@@ -91,17 +91,17 @@ class Department(models.Model):
 
 class Invoice(models.Model):
     STATE = (
-        ('A', 'في المشتريات'),
-        ('B', 'في الأمن'),
-        ('C', 'في الماليات'),
-        ('D', 'في الإدارة'),
-        ('F', 'منتهية')
+        (1, 'في المشتريات'),
+        (2, 'في الأمن'),
+        (3, 'في الماليات'),
+        (4, 'في الإدارة'),
+        (5, 'منتهية')
     )
     # Basic Fields
     number = models.CharField(null=True, blank=True, max_length=100, verbose_name='رقم الفاتورة')
     entryPerson = models.CharField(null=True, blank=True, max_length=100, verbose_name='إدخال البيانات')
     purchase_date = models.DateField(null=True, blank=True, verbose_name='تاريخ الشراء')
-    current_state = models.CharField(null=True, blank=True, verbose_name='حالة الفاتورة الحالية', max_length=1, choices=STATE, default='A')
+    current_state = models.SmallIntegerField(null=True, blank=True, verbose_name='حالة الفاتورة الحالية', choices=STATE, default=1)
     # Related Fields
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.PROTECT, verbose_name='اسم الشركة')
     department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.PROTECT, verbose_name='موجه للقسم')
@@ -140,7 +140,7 @@ class Invoice(models.Model):
 class Item(models.Model):
     # Basic Fields
     name = models.CharField(max_length=200, verbose_name='صنف')
-    description = models.CharField(null=True, blank=True, max_length=200, verbose_name='وصف')
+    description = models.CharField(max_length=200, verbose_name='وصف', default="-")
     quantity = models.FloatField(verbose_name='الكمية')
     price = models.FloatField(verbose_name='سعر الوحدة')
     # Related Fields
@@ -172,8 +172,10 @@ class Item(models.Model):
 
 class Comment(models.Model):
     # Basic Fields
-    detail = models.CharField(null=True, blank=True, max_length=200, verbose_name='ملاحظة')
+    detail = models.CharField(null=False, blank=False, max_length=200, verbose_name='ملاحظة')
     entryPerson = models.CharField(null=True, blank=True, max_length=100, verbose_name='إدخال البيانات')
+    # Related Fields
+    invoice = models.ForeignKey(Invoice, blank=True, null=True, on_delete=models.CASCADE, verbose_name='الفاتورة')
     # Utility Fields
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     date_created = models.DateTimeField(blank=True, null=True)

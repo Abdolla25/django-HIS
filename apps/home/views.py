@@ -16,10 +16,10 @@ from django.urls import reverse
 from django.views.generic import View
 from django.db.models import Sum, F
 
-from apps.invoice.forms import AddCategoryForm, AddCompanyForm, AddDepartmentForm, AddInvoiceForm, AddItemForm
+from apps.invoice.forms import AddCategoryForm, AddCommentForm, AddCompanyForm, AddDepartmentForm, AddInvoiceForm, AddItemForm
 
 from .models import Menu, Page, SubMenu, Carousel, MainIcon, Featurette
-from apps.invoice.models import Category, Company, Department, Invoice, Item
+from apps.invoice.models import Category, Comment, Company, Department, Invoice, Item
 from .forms import ContactForm
 
 import numpy as np
@@ -102,7 +102,7 @@ def createInvoice(request):
     inv = Invoice.objects.get(entryPerson=random)
     return redirect('home:create-build-invoice', slug=inv.slug)
 
-@login_required(login_url="/login/")
+@permission_required('invoice.purchase', login_url="/login/")
 def createBuildInvoice(request, slug):
     #fetch that invoice
     try:
@@ -113,9 +113,11 @@ def createBuildInvoice(request, slug):
         return redirect('home:create-invoice')
     #fetch all the products - related to this invoice
     items = Item.objects.filter(invoice=invoice)
+    comments = Comment.objects.filter(invoice=invoice)
     context = {}
     context['invoice'] = invoice
     context['items'] = items
+    context['comments'] = comments
     context['items_count'] = items.count()
     if items.aggregate(total=Sum('total_price'))['total']:
         total = np.round(float(items.aggregate(total=Sum('total_price'))['total']), decimals=4)
@@ -124,42 +126,53 @@ def createBuildInvoice(request, slug):
         context['items_tax'] = tax
         context['items_inv'] = np.round(np.add(total, tax), decimals=4)
     context['inv_slug'] = slug
-    if request.method == 'GET':
+    if request.method == 'GET' and invoice.current_state == 1:
+        # print()
         item_form  = AddItemForm()
+        comment_form  = AddCommentForm(request.POST)
         inv_form = AddInvoiceForm(instance=invoice)
         context['item_form'] = item_form
+        context['comment_form'] = comment_form
         context['invoice_form'] = inv_form
         return render(request, 'invoice/add-invoice.html', context)
-    if request.method == 'POST':
+    elif request.method == 'GET' and invoice.current_state != 1:
+        messages.warning(request, 'لا يمكنك تعديل الفاتورة بعد إرسالها للمراجعة!')
+        return redirect('home:create-invoice')
+    elif request.method == 'POST':
         item_form  = AddItemForm(request.POST)
+        comment_form  = AddCommentForm(request.POST)
         inv_form = AddInvoiceForm(request.POST, instance=invoice)
         if item_form.is_valid():
-            obj = item_form.save(commit=False)
-            obj.invoice = invoice
-            obj.save()
+            item = item_form.save(commit=False)
+            item.invoice = invoice
+            item.save()
             messages.success(request, "تمت إضافة الصنف بنجاح!")
             return redirect('home:create-build-invoice', slug=slug)
+        elif comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.invoice = invoice
+            comment.entryPerson = request.user.get_full_name()
+            invoice.current_state += 1
+            comment.save()
+            invoice.save()
+            messages.success(request, "تم إرسال الفاتورة للمراجعة بنجاح!")
+            return redirect('home:create-invoice')
         elif inv_form.is_valid and 'purchase_date' in request.POST:
             inv_form.save()
             context['item_form'] = item_form
+            context['comment_form'] = comment_form
             context['invoice_form'] = inv_form
-            messages.success(request, "تم تحديث الفاتورة بنجاح")
+            messages.success(request, "تم حفظ معلومات الفاتورة بنجاح!")
             return render(request, 'invoice/add-invoice.html', context)
         else:
-            context['item_form'] = item_form
-            context['invoice_form'] = inv_form
-            messages.warning(request,"لم يتم تحديث الفاتورة، برجاء مراجعة كافة البيانات المدخلة أعلاه!")
-            return render(request, 'invoice/add-invoice.html', context)
-    return render(request, 'invoice/add-invoice.html', context)
+            pass
+    else:
+        context['item_form'] = item_form
+        context['comment_form'] = comment_form
+        context['invoice_form'] = inv_form
+        messages.warning(request, "لم يتم حفظ الفاتورة، برجاء مراجعة كافة البيانات المدخلة أعلاه!")
+        return render(request, 'invoice/add-invoice.html', context)
 
-@permission_required('invoice.purchase', login_url="/login/")
-def deleteInvoice(request, slug):
-    try:
-        Invoice.objects.get(slug=slug).delete()
-    except:
-        messages.error(request, 'Something went wrong [deleteInvoice]')
-        return redirect('home:create-invoice')
-    return redirect('home:create-invoice')
 
 @permission_required('invoice.purchase', login_url="/login/")
 def deleteItem(request, slug, inv_slug):
@@ -169,6 +182,7 @@ def deleteItem(request, slug, inv_slug):
         messages.error(request, 'Something went wrong [deleteItem]')
         return redirect('home:create-build-invoice', slug=inv_slug)
     return redirect('home:create-build-invoice', slug=inv_slug)
+
 
 def contact(request):
     try:
