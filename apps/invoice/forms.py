@@ -39,6 +39,7 @@ class AddInvoiceForm(ModelForm):
         self.fields['purchase_date'].widget.attrs.update({'class': 'form-control w-75 vDateField', 'onkeydown': 'event.preventDefault()', 'placeholder': 'اضغط رمز التقويم لإدخال التاريخ...', 'required': '', 'style': 'pointer-events: none;'})
         self.fields['category'].widget.attrs.update({'class': 'form-control', 'required': ''})
         self.fields['department'].widget.attrs.update({'class': 'form-control', 'required': ''})
+        self.fields['img'].widget.attrs.update({'class': 'form-control', 'required': ''})
         self.fields['entryPerson'].widget.attrs.update({'class': 'form-control', 'readonly': '', 'required': ''})
     class Meta:
         model = Invoice

@@ -1,0 +1,111 @@
+{% extends "layouts/base-invoice.html" %}
+
+{% block title %} نماذج التواصل {% endblock %} 
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<!-- [ Main Content ] start -->
+	<div class="pcoded-main-container">
+		<div class="pcoded-content">
+			<!-- [ breadcrumb ] start -->
+			<div class="page-header">
+				<div class="page-block">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="page-header-title">
+								<h5 class="m-b-10">قائمة المقترحات/الشكاوى</h5>
+							</div>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="#">نماذج التواصل</a></li>
+								<li class="breadcrumb-item"><a href="#">المقترحات/الشكاوى</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- [ breadcrumb ] end -->
+			<!-- [ Main Content ] start -->
+			<div class="row">
+				<!-- [ sample-page ] start -->
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h5>قائمة المقترحات/الشكاوى المقدمة من خلال نماذج التواصل</h5>
+						</div>
+						<div class="card-body table-border-style">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+									<caption style="caption-side: top;"><i class="feather icon-filter" aria-hidden="true"></i> ترشيح حسب القسم</caption>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+												<i class="feather icon-chevron-left" aria-hidden="true"></i>
+												قسم الإمداد
+											</td>
+                                        </tr>
+                                    </tbody>
+									<tfoot>
+										<tr>
+											<td>
+												<i class="feather icon-chevrons-left" aria-hidden="true"></i> 
+												عرض كافة المقترحات/الشكاوى
+											</td>
+										</tr>
+									</tfoot>
+                                </table>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+									<caption style="caption-side: top;"><i class="feather icon-filter" aria-hidden="true"></i> ترشيح حسب التوقيت</caption>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+												<i class="feather icon-chevron-left" aria-hidden="true"></i>
+												آخر 7 أيام
+											</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+												<i class="feather icon-chevron-left" aria-hidden="true"></i>
+												هذا الشهر
+											</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+												<i class="feather icon-chevron-left" aria-hidden="true"></i>
+												الشهر الماضي
+											</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+												<i class="feather icon-chevron-left" aria-hidden="true"></i>
+												آخر 3 أشهر
+											</td>
+                                        </tr>
+                                    </tbody>
+									<tfoot>
+										<tr>
+											<td>
+												<i class="feather icon-chevrons-left" aria-hidden="true"></i> 
+												عرض كافة المقترحات/الشكاوى
+											</td>
+										</tr>
+									</tfoot>
+                                </table>
+                            </div>
+                        </div>
+					</div>
+				</div>
+				<!-- [ sample-page ] end -->
+			</div>
+			<!-- [ Main Content ] end -->
+		</div>
+	</div>
+	<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

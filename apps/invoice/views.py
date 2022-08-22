@@ -61,4 +61,3 @@ def addData(request, model):
     else:
         messages.warning(request, 'لم يتم إضافة البيانات، يرجى مراجعة نوع وقيمة البيانات المدخلة!')
     return HttpResponseRedirect('/add-{}.html#'.format(model))
-       

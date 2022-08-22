@@ -1,8 +1,7 @@
 
 	{% comment %} [ navigation menu ] start {% endcomment %}
 	<nav class="pcoded-navbar menupos-fixed menu-light ">
-		<div
-			class="navbar-wrapper  ">
+		<div class="navbar-wrapper">
 			<div class="navbar-content scroll-div ">
 				<ul class="nav pcoded-inner-navbar ">
 					<li class="nav-item pcoded-menu-caption">
@@ -79,11 +78,6 @@
 						<label>إدارة الفواتير</label>
 					</li>
 					<li class="nav-item">
-						<a href="/end-sec-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
-							<span class="pcoded-mtext">تصديق فاتورة</span>
-						</a>
-					</li>
-					<li class="nav-item">
 						<a href="/summary-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
 							<span class="pcoded-mtext">ملخص الفواتير</span>
 						</a>
@@ -95,11 +89,6 @@
 					{% if perms.invoice.finance %}
 					<li class="nav-item pcoded-menu-caption">
 						<label>إدارة الفواتير</label>
-					</li>
-					<li class="nav-item">
-						<a href="/end-fin-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
-							<span class="pcoded-mtext">تصديق فاتورة</span>
-						</a>
 					</li>
 					<li class="nav-item">
 						<a href="/summary-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
@@ -115,11 +104,6 @@
 						<label>إدارة الفواتير</label>
 					</li>
 					<li class="nav-item">
-						<a href="/end-dir-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-check-square" aria-hidden="true"></i></span>
-							<span class="pcoded-mtext">تصديق فاتورة</span>
-						</a>
-					</li>
-					<li class="nav-item">
 						<a href="/summary-invoice.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list" aria-hidden="true"></i></span>
 							<span class="pcoded-mtext">ملخص الفواتير</span>
 						</a>
@@ -129,17 +113,17 @@
 						<label>نماذج التواصل</label>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star" style="color:darkgoldenrod"></i></span>
+						<a href="{% url 'home:get-contact' slug='star' req='all' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star" style="color:darkgoldenrod"></i></span>
 							<span class="pcoded-mtext">نماذج مميزة</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-info" style="color:darkgreen"></i></span>
+						<a href="{% url 'home:get-contact' slug='suggest' req='filter' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-info" style="color:darkgreen"></i></span>
 							<span class="pcoded-mtext">المقترحات</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-minus-circle" style="color:darkred"></i></span>
+						<a href="{% url 'home:get-contact' slug='complain' req='filter' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-minus-circle" style="color:darkred"></i></span>
 							<span class="pcoded-mtext">الشكاوى</span>
 						</a>
 					</li>

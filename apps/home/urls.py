@@ -16,11 +16,13 @@ urlpatterns = [
 
     path('addInvoice/',views.createInvoice, name='create-invoice'),
     path('inv/<slug:slug>',views.createBuildInvoice, name='create-build-invoice'),
-    path('deleteItem/<slug:slug>/<slug:inv_slug>',views.deleteItem, name='delete-item'),
+    path('approve/<slug:slug>',views.approveInvoice, name='approve-invoice'),
+    path('deleteItem/<slug:slug>/<slug:inv_slug>', views.deleteItem, name='delete-item'),
     path('contact/', views.contact, name='contact'),
-    path('addData/<str:model>/', addData, name='addData'),
-    path('editData/<str:model>/<int:dataID>/', editData, name='editData'),
-    path('retrieve/<str:model>/<int:dataID>/', retrieveData, name='retrieveData'),
+    path('addData/<str:model>', addData, name='addData'),
+    path('editData/<str:model>/<int:dataID>', editData, name='editData'),
+    path('retrieve/<str:model>/<int:dataID>', retrieveData, name='retrieveData'),
+    path('contact/<slug:slug>/<slug:req>', views.get_contact, name='get-contact'),
 
     path('', views.index, name='home'),
 

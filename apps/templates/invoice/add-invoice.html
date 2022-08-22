@@ -21,6 +21,7 @@
 							</div>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/invoice"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="#">إدخال الفواتير</a></li>
 								<li class="breadcrumb-item"><a href="#">إضافة فاتورة</a></li>
 							</ul>
 						</div>
@@ -39,7 +40,7 @@
 						{% endfor %}
 					</div>
 					{% endif %}
-					<form action="#details" method="post">
+					<form action="#details" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
 						<div class="card">
 							<div class="card-header">
@@ -80,6 +81,12 @@
 									</div>
 									{{ invoice_form.department }}
 								</div>
+								{% comment %} <div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">صورة الفاتورة</span>
+									</div>
+									{{ invoice_form.img }}
+								</div> {% endcomment %}
 							</div>
 							<div class="card-body">
 								<div class="input-group mb-3">
@@ -87,7 +94,7 @@
 										<span class="input-group-text">إدخال البيانات</span>
 									</div>
 									<div class="custom-file col-8">
-										<input type="text" name="entryPerson" maxlength="100" class="form-control" readonly="" id="id_entryPerson" value="{{ user }}">
+										<input type="text" name="entryPerson" maxlength="100" class="form-control" readonly="" id="id_entryPerson" value="{{ user.get_full_name }}">
 									</div>
 									<div class="input-group-append col-2">
 										<a href="{% url 'logout' %}">
@@ -208,13 +215,14 @@
 										<h5>ملاحظات مسجلة:</h5>
 									</div>
 									{% for comment in comments %}
-									<div class="card-body text-center">
+									<div class="card-footer text-muted text-end pb-0">
+										{{ comment.date_created }}
+									</div>
+									<div class="card-body text-center pt-0">
 										<h5 class="card-title">{{ comment.entryPerson }}</h5>
 										<p class="card-text">{{ comment.detail }}</p>
 									</div>
-									<div class="card-footer text-muted text-end">
-										{{ comment.date_created }}
-									</div>
+									<hr>
 									{% endfor %}
 								</div>
 								{% endif %}

@@ -112,6 +112,7 @@ class Contact(models.Model):
     department = models.ForeignKey("invoice.Department", verbose_name="القسم", on_delete=models.CASCADE)
     msg_type = models.CharField(verbose_name='نوع الرسالة', max_length=8, choices=(('suggest', 'مقترح'), ('complain', 'شكوى')))
     msg_text = models.TextField(verbose_name='الرسالة')
+    msg_flag = models.BooleanField(verbose_name='علامة مميزة', default=False)
     msg_created = models.DateTimeField(auto_now_add=True, verbose_name='توقيت الإنشاء')
     msg_modified = models.DateTimeField(auto_now=True, verbose_name='آخر تعديل')
 
