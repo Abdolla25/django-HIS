@@ -18,6 +18,7 @@ urlpatterns = [
     path('inv/<slug:slug>',views.createBuildInvoice, name='create-build-invoice'),
     path('approve/<slug:slug>',views.approveInvoice, name='approve-invoice'),
     path('deleteItem/<slug:slug>/<slug:inv_slug>', views.deleteItem, name='delete-item'),
+    path('deleteImg/<slug:inv_slug>', views.deleteImage, name='delete-image'),
     path('contact/', views.contact, name='contact'),
     path('addData/<str:model>', addData, name='addData'),
     path('editData/<str:model>/<int:dataID>', editData, name='editData'),

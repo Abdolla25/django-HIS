@@ -5,6 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import datetime
 from operator import inv
+import os
 from uuid import uuid4
 from django import template
 from django.contrib.auth.decorators import login_required, permission_required
@@ -131,6 +132,7 @@ def createBuildInvoice(request, slug):
     context['items'] = items
     context['comments'] = comments
     context['items_count'] = items.count()
+    context['invoice_image'] = (str(invoice.img).split('/', 2))[-1]
     if items.aggregate(total=Sum('total_price'))['total']:
         total = np.round(float(items.aggregate(total=Sum('total_price'))['total']), decimals=4)
         tax = np.round(np.multiply(total, 0.14), decimals=4)
@@ -154,7 +156,7 @@ def createBuildInvoice(request, slug):
         item_form  = AddItemForm(request.POST)
         comment_form  = AddCommentForm(request.POST)
         # inv_form = AddInvoiceForm(request.POST, request.FILES, instance=invoice)
-        inv_form = AddInvoiceForm(request.POST, instance=invoice)
+        inv_form = AddInvoiceForm(request.POST, request.FILES, instance=invoice)
         if item_form.is_valid():
             item = item_form.save(commit=False)
             item.invoice = invoice
@@ -175,6 +177,7 @@ def createBuildInvoice(request, slug):
             context['item_form'] = item_form
             context['comment_form'] = comment_form
             context['invoice_form'] = inv_form
+            context['invoice_image'] = (str(invoice.img).split('/', 2))[-1]
             messages.success(request, "تم حفظ معلومات الفاتورة بنجاح!")
             return render(request, 'invoice/add-invoice.html', context)
         else:
@@ -193,6 +196,22 @@ def deleteItem(request, slug, inv_slug):
         Item.objects.get(slug=slug).delete()
     except:
         messages.error(request, 'Something went wrong [deleteItem]')
+        return redirect('home:create-build-invoice', slug=inv_slug)
+    return redirect('home:create-build-invoice', slug=inv_slug)
+
+@permission_required('invoice.purchase', login_url="/login/")
+def deleteImage(request, inv_slug):
+    try:
+        invoice = Invoice.objects.get(slug=inv_slug)
+    except:
+        messages.error(request, 'Something went wrong clearImage]')
+        return redirect('home:create-build-invoice', slug=inv_slug)
+    if os.path.exists(str(invoice.img)):
+        os.remove(str(invoice.img))
+        invoice.img = ''
+        invoice.save()
+    else:
+        messages.error(request, 'Something went wrong [deleteImage]')
         return redirect('home:create-build-invoice', slug=inv_slug)
     return redirect('home:create-build-invoice', slug=inv_slug)
 

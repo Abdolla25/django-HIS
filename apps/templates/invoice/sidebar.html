@@ -130,6 +130,85 @@
 					{% endif %}
 					{% comment %} End of Manager Section {% endcomment %}
 
+
+					{% comment %} Archive Section: Managers group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.director %}
+					<li class="nav-item pcoded-menu-caption">
+						<label>أرشيف الفواتير</label>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layers" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">عرض كافة الفواتير</span>
+						</a>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clock"></i></span>
+							<span class="pcoded-mtext">عرض حسب التوقيت</span>
+						</a>
+						<ul class="pcoded-submenu">
+							<li class="pcoded-hasmenu">
+								<a href="#">آخر فترة</a>
+								<ul class="pcoded-submenu">
+									<li><a href="#">7 أيام</a></li>
+									<li><a href="#">30 يوم</a></li>
+									<li><a href="#">90 يوم</a></li>
+								</ul>
+							</li>
+							<li class="pcoded-hasmenu">
+								<a href="#">خلال مدة</a>
+								<ul class="pcoded-submenu">
+									<li><a href="#">الشهر الحالي</a></li>
+									<li><a href="#">الشهر السابق</a></li>
+									<li><a href="#">السنة الحالية</a></li>
+									<li><a href="#">السنة السابقة</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
+							<span class="pcoded-mtext">عرض حسب الشركات</span>
+						</a>
+						<ul class="pcoded-submenu">
+							<li class="pcoded-hasmenu">
+								<a href="#">الأجهزة الطبية</a>
+								<ul class="pcoded-submenu">
+									<li><a href="#">شركة بايوترونيكس</a></li>
+									<li><a href="#">شركة ميديكال</a></li>
+									<li><a href="#">...الخ</a></li>
+								</ul>
+							</li>
+							<li class="pcoded-hasmenu">
+								<a href="#">الأشغال</a>
+								<ul class="pcoded-submenu">
+									<li><a href="#">شركة بيت الكهرباء</a></li>
+									<li><a href="#">شركة الصناعة الحديثة</a></li>
+									<li><a href="#">...الخ</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+					{% comment %} End of Archive Section {% endcomment %}
+
+					{% comment %} Systems Section: Managers group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.director %}
+					<li class="nav-item pcoded-menu-caption">
+						<label>شبكة نظم المعلومات</label>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-message-square" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">منظومة التواصل الإلكتروني</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">منظومة الأرشيف الإلكتروني</span>
+						</a>
+					</li>
+					{% endif %}
+					{% comment %} End of Systems Section {% endcomment %}
+
 					{% comment %} Developer Section: Developers group has permission to view this section! {% endcomment %}
 					{% comment %} <li class="nav-item pcoded-menu-caption">
 						<label>النماذج</label>

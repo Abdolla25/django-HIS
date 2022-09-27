@@ -20,7 +20,7 @@
 								<h5 class="m-b-10">إضافة فاتورة</h5>
 							</div>
 							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a href="/invoice"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="/invoice/"><i class="feather icon-home"></i></a></li>
 								<li class="breadcrumb-item"><a href="#">إدخال الفواتير</a></li>
 								<li class="breadcrumb-item"><a href="#">إضافة فاتورة</a></li>
 							</ul>
@@ -81,12 +81,31 @@
 									</div>
 									{{ invoice_form.department }}
 								</div>
-								{% comment %} <div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text" id="basic-addon2">صورة الفاتورة</span>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend w-25">
+										<span class="input-group-text" id="basic-addon2">صورة ضوئية للفاتورة</span>
 									</div>
+									{% if invoice_image %}
+									<button class="btn btn-primary w-50" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">عرض المستند الحالي</button>
+									<a class="w-25" href="{% url 'home:delete-image' inv_slug=inv_slug %}">
+										<button class="btn btn-danger w-100" type="button">
+											تغيير المستند
+										</button>
+									</a>
+									<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+										<div class="offcanvas-header">
+											<h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">صورة ضوئية للفاتورة</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+										</div>
+										<div class="offcanvas-body">
+											<img src="{% static invoice_image %}" class="img-fluid" alt="صورة ضوئية للفاتورة">
+											{{ invoice_image }}
+										</div>
+									</div>
+									{% else %}
 									{{ invoice_form.img }}
-								</div> {% endcomment %}
+									{% endif %}
+								</div>
 							</div>
 							<div class="card-body">
 								<div class="input-group mb-3">
@@ -98,7 +117,7 @@
 									</div>
 									<div class="input-group-append col-2">
 										<a href="{% url 'logout' %}">
-											<button class="btn  btn-danger w-100" type="button">
+											<button class="btn btn-danger w-100" type="button">
 												تغيير الحساب
 											</button>
 										</a>

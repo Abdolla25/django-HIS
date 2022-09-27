@@ -102,7 +102,7 @@ class Invoice(models.Model):
     entryPerson = models.CharField(null=True, blank=True, max_length=100, verbose_name='إدخال البيانات')
     purchase_date = models.DateField(null=True, blank=True, verbose_name='تاريخ الشراء')
     current_state = models.SmallIntegerField(null=True, blank=True, verbose_name='حالة الفاتورة الحالية', choices=STATE, default=1)
-    img = models.ImageField(null=True, blank=True, upload_to='media/inv_images')
+    img = models.ImageField(null=True, blank=True, upload_to='apps/media/inv_images')
     # Related Fields
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.PROTECT, verbose_name='اسم الشركة')
     department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.PROTECT, verbose_name='موجه للقسم')
