@@ -1,0 +1,26 @@
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-blue">		
+        <div class="m-header">
+            <a class="mobile-menu" id="mobile-collapse" href="#"><span></span></a>
+            <a href="{% url 'home:invoice' %}" class="b-brand">
+                منظومة الأرشيف الإلكتروني
+            </a>
+            <a href="#" class="mob-toggler">
+                <i class="feather icon-more-vertical"></i>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    الحساب المستخدم حالياً: {{ user.first_name }}/ {{ user.last_name }}
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li>
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                        تسجيل خروج
+                        <i class="feather icon-log-out ms-1"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+</header>

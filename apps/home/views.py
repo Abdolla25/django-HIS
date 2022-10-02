@@ -65,6 +65,48 @@ def invoice(request):
     return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
+def contacts(request):
+    context = {}
+    context['segment'] = 'invoice'
+    context['invoice_count'] = Invoice.objects.filter(number__isnull=False).count()
+    context['company_count'] = Company.objects.count()
+    context['category_count'] = Category.objects.count()
+    context['department_count'] = Department.objects.count()
+    context['invoice_finished_count'] = Invoice.objects.filter(current_state=5).count()
+    invoice_finished = Invoice.objects.filter(current_state=5).values_list('id', flat=True)
+    invoice_month = Invoice.objects.filter(Q(purchase_date__month=datetime.date.today().month) & Q(current_state=5)).values_list('id', flat=True)
+    context['invoice_total'] = Item.objects.filter(invoice__in=invoice_finished).aggregate(total=Sum('total_price'))['total']
+    context['invoice_month_total'] = Item.objects.filter(invoice__in=invoice_month).aggregate(total=Sum('total_price'))['total']
+    context['suggest_count'] = Contact.objects.filter(msg_type='suggest').count()
+    context['suggest_flag_count'] = Contact.objects.filter(Q(msg_type='suggest') & Q(msg_flag=True)).count()
+    context['complain_count'] = Contact.objects.filter(msg_type='complain').count()
+    context['complain_flag_count'] = Contact.objects.filter(Q(msg_type='complain') & Q(msg_flag=True)).count()
+    context['contact_list'] = Contact.objects.order_by('msg_created').reverse()[:3]
+    html_template = loader.get_template('contacts/index.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def patient(request):
+    context = {}
+    context['segment'] = 'invoice'
+    context['invoice_count'] = Invoice.objects.filter(number__isnull=False).count()
+    context['company_count'] = Company.objects.count()
+    context['category_count'] = Category.objects.count()
+    context['department_count'] = Department.objects.count()
+    context['invoice_finished_count'] = Invoice.objects.filter(current_state=5).count()
+    invoice_finished = Invoice.objects.filter(current_state=5).values_list('id', flat=True)
+    invoice_month = Invoice.objects.filter(Q(purchase_date__month=datetime.date.today().month) & Q(current_state=5)).values_list('id', flat=True)
+    context['invoice_total'] = Item.objects.filter(invoice__in=invoice_finished).aggregate(total=Sum('total_price'))['total']
+    context['invoice_month_total'] = Item.objects.filter(invoice__in=invoice_month).aggregate(total=Sum('total_price'))['total']
+    context['suggest_count'] = Contact.objects.filter(msg_type='suggest').count()
+    context['suggest_flag_count'] = Contact.objects.filter(Q(msg_type='suggest') & Q(msg_flag=True)).count()
+    context['complain_count'] = Contact.objects.filter(msg_type='complain').count()
+    context['complain_flag_count'] = Contact.objects.filter(Q(msg_type='complain') & Q(msg_flag=True)).count()
+    context['contact_list'] = Contact.objects.order_by('msg_created').reverse()[:3]
+    html_template = loader.get_template('patient/index.html')
+    return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
 def pages(request):
     context = {}
     # All resource paths end in .html.
@@ -364,7 +406,7 @@ def get_contact(request, slug, req):
         context['contact_type'] = "النماذج المميزة"
         context['contact_slug'] = "star"
         context['contact_list'] = Contact.objects.order_by('msg_created').reverse().filter(msg_flag=True)
-    return render(request, 'invoice/list-contact.html', context)
+    return render(request, 'contacts/list-contact.html', context)
 
 def contact(request):
     try:

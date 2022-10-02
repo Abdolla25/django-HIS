@@ -1,0 +1,90 @@
+
+	{% comment %} [ navigation menu ] start {% endcomment %}
+	<nav class="pcoded-navbar menupos-fixed menu-light ">
+		<div class="navbar-wrapper">
+			<div class="navbar-content scroll-div ">
+				<ul class="nav pcoded-inner-navbar ">
+					<li class="nav-item pcoded-menu-caption">
+						<label>تنقل</label>
+					</li>
+
+					{% comment %} General Section: All groups have permission to view this section! {% endcomment %}
+					<li class="nav-item">
+						<a href="{% url 'home:contactView' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-eye"></i></span>
+							<span class="pcoded-mtext">نظرة عامة</span>
+						</a>
+					</li>
+					{% comment %} End of General Section {% endcomment %}
+
+					{% comment %} IT Section: IT group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.it %}
+					<li class="nav-item pcoded-menu-caption">
+						<label>إدارة نماذج التواصل</label>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-plus-square"></i></span>
+							<span class="pcoded-mtext">استعادة نموذج</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-minus-square" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">حذف نموذج</span>
+						</a>
+					</li>
+					{% endif %}
+					{% comment %} End of Purchase Section {% endcomment %}
+
+					{% comment %} Manager Section: Managers group has permission to view this section! {% endcomment %}
+					{% if perms.invoice.director %}
+					
+					<li class="nav-item pcoded-menu-caption">
+						<label>نماذج التواصل</label>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'home:get-contact' slug='star' req='all' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star" style="color:darkgoldenrod"></i></span>
+							<span class="pcoded-mtext">نماذج مميزة</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'home:get-contact' slug='suggest' req='filter' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-info" style="color:darkgreen"></i></span>
+							<span class="pcoded-mtext">المقترحات</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'home:get-contact' slug='complain' req='filter' %}" class="nav-link"><span class="pcoded-micon"><i class="feather icon-minus-circle" style="color:darkred"></i></span>
+							<span class="pcoded-mtext">الشكاوى</span>
+						</a>
+					</li>
+					{% endif %}
+					{% comment %} End of Manager Section {% endcomment %}
+
+					{% comment %} Systems Section: Managers & IT groups has permission to view this section! {% endcomment %}
+					{% if perms.invoice.director or perms.invoice.it %}
+					<li class="nav-item pcoded-menu-caption">
+						<label>شبكة نظم المعلومات</label>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'home:invoice' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-message-square" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">منظومة الفواتير الإلكترونية</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'home:patientView' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package" aria-hidden="true"></i></span>
+							<span class="pcoded-mtext">منظومة الأرشيف الإلكتروني</span>
+						</a>
+					</li>
+					{% endif %}
+					{% comment %} End of Systems Section {% endcomment %}
+
+					<li class="nav-item mt-5">
+						<a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span>
+							<span class="pcoded-mtext">عودة للصفحة الرئيسية</span>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+	{% comment %} [ navigation menu ] end {% endcomment %}
+    

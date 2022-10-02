@@ -1,0 +1,317 @@
+{% extends "layouts/base-patient.html" %}
+
+{% load static %}
+
+{% block title %} إضافة ملف {% endblock %} 
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	{% comment %} [ Main Content ] start {% endcomment %}
+	<div class="pcoded-main-container">
+		<div class="pcoded-content">
+			{% comment %} [ breadcrumb ] start {% endcomment %}
+			<div class="page-header">
+				<div class="page-block">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="page-header-title">
+								<h5 class="m-b-10">إضافة ملف</h5>
+							</div>
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/patient/"><i class="feather icon-home"></i></a></li>
+								<li class="breadcrumb-item"><a href="#">إدخال الملفات</a></li>
+								<li class="breadcrumb-item"><a href="#">إضافة ملف</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% comment %} [ breadcrumb ] end {% endcomment %}
+			{% comment %} [ Main Content ] start {% endcomment %}
+			<div class="row">
+				{% comment %} [ sample-page ] start {% endcomment %}
+				<div class="col-sm-12">
+					{% if messages %}
+					<div class="messages">
+						{% for message in messages %}
+						<div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+						{% endfor %}
+					</div>
+					{% endif %}
+					<form action="#details" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="card">
+							<div class="card-header">
+								<h5>معلومات الملف</h5>
+							</div>
+							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">الجهة المصدرة للفاتورة</span>
+									</div>
+									{{ invoice_form.company }}
+									<div class="invalid-feedback">Example invalid custom select feedback</div>
+									<small id="passwordHelpBlock" class="form-text text-muted w-100">
+										في حال عدم وجود اسم الجهة المصدرة في قائمة الشركات أعلاه أو في حال عدم مطابقة رقم السجل التجاري يجب الرجوع لفرع النظم.
+									</small>
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">رقم الفاتورة</span>
+									</div>
+									{{ invoice_form.number }}
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">تاريخ الفاتورة</span>
+									</div>
+									{{ invoice_form.purchase_date }}
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">تصنيف الفاتورة</span>
+									</div>
+									{{ invoice_form.category }}
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">فاتورة موجهة لقسم</span>
+									</div>
+									{{ invoice_form.department }}
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend w-25">
+										<span class="input-group-text" id="basic-addon2">صورة ضوئية للفاتورة</span>
+									</div>
+									{% if invoice_image %}
+									<button class="btn btn-primary w-50" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">عرض المستند الحالي</button>
+									<a class="w-25" href="{% url 'home:delete-image' inv_slug=inv_slug %}">
+										<button class="btn btn-danger w-100" type="button">
+											تغيير المستند
+										</button>
+									</a>
+									<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+										<div class="offcanvas-header">
+											<h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">صورة ضوئية للفاتورة</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+										</div>
+										<div class="offcanvas-body">
+											<img src="{% static invoice_image %}" class="img-fluid" alt="صورة ضوئية للفاتورة">
+											{{ invoice_image }}
+										</div>
+									</div>
+									{% else %}
+									{{ invoice_form.img }}
+									{% endif %}
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend col-2">
+										<span class="input-group-text">إدخال البيانات</span>
+									</div>
+									<div class="custom-file col-8">
+										<input type="text" name="entryPerson" maxlength="100" class="form-control" readonly="" id="id_entryPerson" value="{{ user.get_full_name }}">
+									</div>
+									<div class="input-group-append col-2">
+										<a href="{% url 'logout' %}">
+											<button class="btn btn-danger w-100" type="button">
+												تغيير الحساب
+											</button>
+										</a>
+									</div>
+								</div>
+								<div class="col-6 mx-auto text-center">
+									<button class="btn  btn-success w-50" type="submit">حفظ معلومات الفاتورة</button>
+									<button class="btn  btn-warning w-25" type="reset">إعادة تعيين</button>
+								</div>
+							</div>
+						</div>
+						{% if invoice.number %}
+						<div id="details" class="card">
+							<div class="card-header">
+								<h5>تفاصيل الفاتورة</h5>
+							</div>
+							<div class="card-body">
+								<button href="#addItemModal" type="button" class="btn btn-link" data-bs-toggle="modal">
+									<i class="fa fa-plus-circle" style="color: green;" aria-hidden="true"></i>
+									إضافة صنف
+								</button>
+								{% if items|length > 0 %}
+								<div class="table-responsive">
+									<table class="table table-hover text-center">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>الصنف</th>
+												<th>الوصف</th>
+												<th>الكمية</th>
+												<th>سعر الوحدة</th>
+												<th>السعر الإجمالي</th>
+												<th>حذف؟</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for item in items %}
+											<tr>
+												<td>
+													{{ forloop.counter }}
+												</td>
+												<td>
+													{{ item.name }}
+												</td>
+												<td>
+													{{ item.description }}
+												</td>
+												<td>
+													{{ item.quantity }}
+												</td>
+												<td>
+													{{ item.price }}
+												</td>
+												<td>
+													{{ item.total_price }}
+												</td>
+												<td>
+													<a href="{% url 'home:delete-item' slug=item.slug  inv_slug=inv_slug %}">
+														<i class="fa fa-times-circle" style="color: red;" aria-hidden="true"></i>
+													</a>
+												</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+										<tfoot>
+											<tr>
+												<th colspan="3">عدد الأصناف</th>
+												<th colspan="4">{{ items_count }}</th>
+											</tr>
+											<tr>
+												<th colspan="3">إجمالي سعر الأصناف</th>
+												<th colspan="4">{{ items_total }}</th>
+											</tr>
+											<tr>
+												<th colspan="3">ضريبة القيمة المضافة (14%)</th>
+												<th colspan="4">{{ items_tax }}</th>
+											</tr>
+											<tr>
+												<th colspan="3">إجمالي الفاتورة</th>
+												<th colspan="4">{{ items_inv }}</th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+								{% endif %}
+							</div>
+						</div>
+						{% endif %}
+					</form>
+					{% if items|length > 0 %}
+					<form action="#" method="post">
+						{% csrf_token %}
+						<div class="card">
+							<div class="card-header">
+								<h5>حفظ وإرسال الفاتورة</h5>
+							</div>
+							<div class="card-body">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">أضف ملاحظة</span>
+									</div>
+									{{ comment_form.detail }}
+								</div>
+								<div class="custom-control custom-checkbox mb-3">
+									<input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
+									<label class="custom-control-label" for="customControlValidation1">أقر بأني قمت بمراجعة كافة معلومات وتفاصيل الفاتورة بشكل دقيق وأنني استخدم المنظومة بحسابي الخاص بي ويظهر اسم المستخدم الخاص بي أعلاه وليس اسم شخص آخر ...</label>
+								</div>
+								<div class="col-6 mx-auto text-center">
+									<button class="btn  btn-primary w-50" type="submit">إرسال الفاتورة للمراجعة</button>
+								</div>
+								{% if comments|length > 0 %}
+								<div class="card mt-5">
+									<div class="card-header">
+										<h5>ملاحظات مسجلة:</h5>
+									</div>
+									{% for comment in comments %}
+									<div class="card-footer text-muted text-end pb-0">
+										{{ comment.date_created }}
+									</div>
+									<div class="card-body text-center pt-0">
+										<h5 class="card-title">{{ comment.entryPerson }}</h5>
+										<p class="card-text">{{ comment.detail }}</p>
+									</div>
+									<hr>
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+						</div>
+					</form>
+					{% endif %}
+				</div>
+				{% comment %} [ sample-page ] end {% endcomment %}
+			</div>
+			{% comment %} [ Main Content ] end {% endcomment %}
+		</div>
+	</div>
+	{% comment %} [ Main Content ] end {% endcomment %}
+	<div class="modal modal-sheet py-5" tabindex="-1" id="addItemModal">
+		<div class="modal-dialog">
+			<div class="modal-content rounded-6 shadow">
+				<form action="#details" method="post">
+				{% csrf_token %}
+				<div class="modal-header border-bottom-0">
+					<h5 class="modal-title">إضافة صنف للفاتورة</h5>
+					<button type="button" class="btn-close ms-auto me-0" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body py-0">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">اسم</span>
+						</div>
+						{{item_form.name}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">وصف</span>
+						</div>
+						{{item_form.description}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">كمية</span>
+						</div>
+						{{item_form.quantity}}
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">سعر</span>
+						</div>
+						{{item_form.price}}
+					</div>
+				</div>
+				<div class="modal-footer flex-column border-top-0">
+					<button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">أضف للفاتورة</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+{% comment %} Specific Page JS goes HERE  {% endcomment %}
+{% block javascripts %}
+<script src="/admin/jsi18n/"></script>
+<script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script src="/static/admin/js/calendar.js"></script>
+<script src="/static/admin/js/jquery.init.js"></script>
+<script src="/static/assets/js/DateTimeShortcuts.js"></script>
+<script src="/static/admin/js/core.js"></script>
+<script>
+	window.onload = function() {
+		document.getElementById('calendarlink0').innerHTML = '<i class="feather icon-calendar"></i>';
+	};
+</script>
+{% endblock javascripts %}

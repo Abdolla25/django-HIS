@@ -23138,7 +23138,7 @@ pre[class*=language-]:before {
     position: absolute;
     box-shadow: 2px 0 2.94px 0.06px rgba(4, 26, 55, 0.16);
     transition: all 0.05s ease-in-out;
-    width: 235px;
+    width: 240px;
     height: calc(100% - 56px);
     margin-top: 56px;
     top: 0;

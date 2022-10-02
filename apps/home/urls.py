@@ -13,6 +13,8 @@ app_name = 'home'
 urlpatterns = [
 
     path('invoice/', views.invoice, name='invoice'),
+    path('contacts/', views.contacts, name='contactView'),
+    path('patient/', views.patient, name='patientView'),
 
     path('addInvoice/',views.createInvoice, name='create-invoice'),
     path('inv/<slug:slug>',views.createBuildInvoice, name='create-build-invoice'),
